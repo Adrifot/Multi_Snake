@@ -3,7 +3,7 @@ import time
 import random
 import heapq
 
-snake_speed = 20 # frames per second
+snake_speed = 30 # frames per second
 
 # Window size
 window_x = 800
@@ -26,10 +26,10 @@ pygame.display.set_caption('Mai multi serpisori nazdravani')
 game_window = pygame.display.set_mode((window_x, window_y))
 fps = pygame.time.Clock()
 
-# === CONFIGURABLE VARS ===
+# --- CONFIGURABLE VARS ---
 
 M = 5 # Number of foods
-N = 3 # Number of snakes
+N = 4 # Number of snakes
 
 # Food positions
 foods = [
@@ -53,7 +53,7 @@ for i in range(N): # For now, all snakes spawn in parallel in the top-left corne
     }
     snakes.append(snake)
 
-# === PATHFINDING - A* ===
+# --- PATHFINDING - A* ---
 class Node:
     def __init__(self, position, parent=None):
         self.position = position
