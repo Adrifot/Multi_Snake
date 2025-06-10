@@ -5,10 +5,7 @@ def random_chromosome(n_bits):
     return random.getrandbits(n_bits)
 
 def crossover(chr1, chr2):
-    print("Parent A:", bin(chr1))
-    print("Parent B:", bin(chr2))
     
-
     # Binary representations of the genetic dominance gene
     start, length = genes.LAYOUT["gene_dominance"]
     raw_dom1 = genes.extract(chr1, start, length)

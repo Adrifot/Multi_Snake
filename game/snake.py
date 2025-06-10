@@ -17,10 +17,6 @@ class Snake:
         else:
             self.chr = gget.crossover(parent1_chr, parent2_chr) 
     
-    # print() overwrite
-    def __str__(self):
-        return bin(self.chr) + "\n"
-    
     # Mutation function        
     def mutate(self):
         start, length = genes.LAYOUT["mutability"]
