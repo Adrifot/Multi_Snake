@@ -32,10 +32,10 @@ DECODER = {
     },
     
     "mutability": {
-        0b00: 1, #0.01, # more stability
-        0b01: 1, #0.03, # 3% chance (much bigger than IRL)
-        0b10: 1, #0.03,
-        0b11: 1, #0.05 # more mutation
+        0b00: 0.05, # more stability
+        0b01: 0.1, # 10% chance (much bigger than IRL)
+        0b10: 0.1,
+        0b11: 0.15 # more mutation
     }
 }
 
