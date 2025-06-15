@@ -2,7 +2,10 @@ WINDOW_X = 1000
 WINDOW_Y = 1000
 TILE_SIZE = 10
 
-FPS = 30
+FPS = 5
+
+FOOD_NR = 100
+FOOD_RESPAWN_RATE = 20
 
 LAND_COLORS = {
     1: (105, 153, 93),  # green fields
@@ -26,3 +29,5 @@ SNAKE_COLORS = {
     "gray": (120, 138, 163),
     "beige": (255, 202, 212)
 }  
+
+FOOD_COLOR = (250, 250, 250)
