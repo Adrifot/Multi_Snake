@@ -1,9 +1,10 @@
 import heapq
 from collections import deque
 
-# --- Helper Functions ---
+
 def manhattan(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
 
 def get_neighbors(grid, pos, vision_range=None):
     x, y = pos
@@ -16,17 +17,16 @@ def get_neighbors(grid, pos, vision_range=None):
                     neighbors.append((nx, ny))
     return neighbors
 
-def foods_in_vision(snake_pos, foods, vision_range, max_foods=5):
+
+def foods_in_vision(snake_pos, foods, vision_range):
     visible = []
     for food in foods:
         if manhattan(snake_pos, food) <= vision_range:
             visible.append(food)
-            if len(visible) >= max_foods:
-                break
     return visible
 
-# --- Pathfinding Algorithms ---
 
+# ------- PATHFINDING -------
 def greedy(grid, start, goals, vision_range):
     goals = set(goals)
     queue = deque([start])
@@ -35,7 +35,6 @@ def greedy(grid, start, goals, vision_range):
     while queue:
         current = queue.popleft()
         if current in goals:
-            # Reconstruct path
             path = []
             while current != start:
                 path.append(current)
@@ -43,14 +42,14 @@ def greedy(grid, start, goals, vision_range):
             return path[::-1]
         
         neighbors = get_neighbors(grid, current, vision_range)
-        neighbors.sort(key=lambda n: min(manhattan(n, g) for g in goals))  # Closest-first
+        neighbors.sort(key=lambda n: min(manhattan(n, g) for g in goals)) 
         
         for neighbor in neighbors:
             if neighbor not in came_from:
                 came_from[neighbor] = current
                 queue.append(neighbor)
     
-    return None  # No path found
+    return None  
 
 
 def bfs(grid, start, goals, vision_range):
@@ -61,7 +60,6 @@ def bfs(grid, start, goals, vision_range):
     while queue:
         current = queue.popleft()
         if current in goals:
-            # Reconstruct path
             path = []
             while current != start:
                 path.append(current)
@@ -73,7 +71,7 @@ def bfs(grid, start, goals, vision_range):
                 came_from[neighbor] = current
                 queue.append(neighbor)
     
-    return None  # No path found
+    return None 
 
 
 def dijkstra(grid, start, goals, vision_range):
@@ -85,7 +83,6 @@ def dijkstra(grid, start, goals, vision_range):
     while heap:
         cost, current = heapq.heappop(heap)
         if current in goals:
-            # Reconstruct path
             path = []
             while current != start:
                 path.append(current)
@@ -94,13 +91,14 @@ def dijkstra(grid, start, goals, vision_range):
         
         for neighbor in get_neighbors(grid, current, vision_range):
             nx, ny = neighbor
-            new_cost = cost + grid[ny][nx]  # Terrain cost
+            new_cost = cost + grid[ny][nx]
             if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
                 cost_so_far[neighbor] = new_cost
                 heapq.heappush(heap, (new_cost, neighbor))
                 came_from[neighbor] = current
     
-    return None  # No path found
+    return None  
+
 
 def a_star(grid, start, goals, vision_range):
     goals = set(goals)
@@ -118,14 +116,13 @@ def a_star(grid, start, goals, vision_range):
             return path[::-1]
         
         for neighbor in get_neighbors(grid, current, vision_range):
-            new_cost = cost + grid[neighbor[1]][neighbor[0]]  # Add terrain cost
+            new_cost = cost + grid[neighbor[1]][neighbor[0]]  
             if neighbor not in cost_so_far or new_cost < cost_so_far[neighbor]:
                 cost_so_far[neighbor] = new_cost
                 priority = new_cost + min(manhattan(neighbor, g) for g in goals)
                 heapq.heappush(heap, (priority, new_cost, neighbor))
                 came_from[neighbor] = current
-    return None  # No path found
+    return None  
 
 
-# Expose algorithms at the package level
 __all__ = ['a_star', 'bfs', 'greedy', 'foods_in_vision']
