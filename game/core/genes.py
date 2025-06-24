@@ -4,7 +4,7 @@ import core.algorithms as algos
 # ----- Constants ------
 CHROMOSOME_LENGTH = 8 
 
-# Gene layout: {gene_name: (start_bit, length)}
+# Gene layout: gene_name: (start_bit, length)
 LAYOUT = {
     "algorithm": (0, 2),    # 2 bits (pathfinding algorithm)
     "vision_range": (2, 2), # 2 bits (distance of perception)

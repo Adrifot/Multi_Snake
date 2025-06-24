@@ -18,7 +18,7 @@ class World:
         
         for y in range(self.height):
             for x in range(self.width):
-                n = noise.noise2(x/40, y/40)
+                n = noise.noise2(x/10, y/10) # REMINDER: de citit despre restul parametrilor
                 if n < -0.55:
                     grid[y][x] = 999  # Impassable
                 elif n < -0.3:

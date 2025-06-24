@@ -12,6 +12,8 @@ class Snake:
         self.body = [position]
         self.score = 0
         self.alive = True
+        self.energy = 150
+        self.energy_since_last_shrink = 0
         
         self.path = []
         self.step = 0
@@ -95,15 +97,32 @@ class Snake:
         # Execute movement
         self.position = next_pos
         self.body.insert(0, self.position)
+        
+        # Energy loss
+        terrain_cost = grid[self.position[1]][self.position[0]]
+        self.energy -= terrain_cost
+        self.energy_since_last_shrink += terrain_cost
+
+        while self.energy_since_last_shrink >= config.SHRINK_ENERGY_INTERVAL and len(self.body) > 1:  # or 50 for your final value
+            self.body.pop()
+            self.energy_since_last_shrink -= config.SHRINK_ENERGY_INTERVAL
+            
+        if self.energy <= 0 or len(self.body) <= 1:
+            self.alive = False
+            return False
+        if self.energy % config.SHRINK_ENERGY_INTERVAL == 0 and len(self.body) > 1:
+            self.body.pop()
+        
         if len(self.body) > max(3, self.score + 3):
             self.body.pop()
-        print(f"Snake at {self.position} | Path: {len(self.path)} steps | Step: {self.step}")
+        
         return True
 
 
     def follow_path(self, grid, other_bodies=None):
         if other_bodies is None:
             other_bodies = set()
+            
         if self.path and self.step < len(self.path):
             next_pos = self.path[self.step]
             # Check if next position is valid
@@ -117,14 +136,26 @@ class Snake:
                 self.position = next_pos
                 self.body.insert(0, self.position)
                 self.step += 1
+                
+                terrain_cost = grid[self.position[1]][self.position[0]]
+                self.energy -= terrain_cost
+                self.energy_since_last_shrink += terrain_cost
 
-                if len(self.body) > max(3, self.score + 3):
+                while self.energy_since_last_shrink >= config.SHRINK_ENERGY_INTERVAL and len(self.body) > 1:  # or 50 for your final value
                     self.body.pop()
-            else:
-                # Collision -> snake dies
+                    self.energy_since_last_shrink -= config.SHRINK_ENERGY_INTERVAL
+                    
+                if self.energy <= 0:
+                    self.alive = False
+                    return
+                if self.energy % config.SHRINK_ENERGY_INTERVAL == 0 and len(self.body) > 1:
+                    self.body.pop()
+
+                # if len(self.body) > max(3, self.score + 3):
+                #     self.body.pop()
+            else: # Collision -> snake dies
                 self.alive = False
-        else:
-            # Invalid path step -> abandon path
+        else: # Invalid path step -> abandon path
             self.path = []
             self.step = 0
                 
