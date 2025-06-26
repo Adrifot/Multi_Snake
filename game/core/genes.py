@@ -2,7 +2,7 @@ import random
 import core.algorithms as algos
 
 # ----- Constants ------
-CHROMOSOME_LENGTH = 10
+CHROMOSOME_LENGTH = 12
 
 # Gene layout: gene_name: (start_bit, length)
 LAYOUT = {
@@ -10,7 +10,8 @@ LAYOUT = {
     "vision_range": (2, 2), # 2 bits (distance of perception)
     "gene_dominance": (4, 2), # 2 bits (affects crossover bias)
     "mutability": (6, 2),    # 2 bits (mutation probability)
-    "exploration": (8, 2)   # 2 bits (chance of exploring map)
+    "exploration": (8, 2), # 2 bits (chance of random movements in the absence of food)
+    "max_energy": (10, 2) # starting and maximum energy
 }
 
 # Decoder for gene values
@@ -41,9 +42,15 @@ DECODER = {
     },
     "exploration": {
         0b00: 0.1,
-        0b01: 0.2,
-        0b10: 0.2,
-        0b11: 0.3
+        0b01: 0.25,
+        0b10: 0.25,
+        0b11: 0.40
+    },
+    "max_energy": {
+        0b00: 100,
+        0b01: 150,
+        0b10: 150,
+        0b11: 200
     }
 }
 

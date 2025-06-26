@@ -132,6 +132,7 @@ class GameController:
                 if snake.position == food.position:
                     snake.grow()
                     snake.energy += config.FOOD_ENERGY
+                    snake.energy = min(snake.energy, snake.max_energy)
                     self.foods.remove(food)
                     break
 

@@ -18,7 +18,6 @@ class Snake:
         self.color = color
         self.score = 0
         self.alive = True
-        self.energy = 15000
         self.energy_since_last_shrink = 0
         self.path = []
         self.step = 0
@@ -40,6 +39,8 @@ class Snake:
         self.vision_range = traits["vision_range"]
         self.mutability = traits["mutability"]
         self.exploration = traits["exploration"]
+        self.max_energy = traits["max_energy"]
+        self.energy = self.max_energy
 
     def mutate(self):
         start, length = genes.LAYOUT["mutability"]
