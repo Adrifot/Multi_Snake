@@ -2,14 +2,15 @@ import random
 import core.algorithms as algos
 
 # ----- Constants ------
-CHROMOSOME_LENGTH = 8 
+CHROMOSOME_LENGTH = 10
 
 # Gene layout: gene_name: (start_bit, length)
 LAYOUT = {
     "algorithm": (0, 2),    # 2 bits (pathfinding algorithm)
     "vision_range": (2, 2), # 2 bits (distance of perception)
     "gene_dominance": (4, 2), # 2 bits (affects crossover bias)
-    "mutability": (6, 2)    # 2 bits (mutation probability)
+    "mutability": (6, 2),    # 2 bits (mutation probability)
+    "exploration": (8, 2)   # 2 bits (chance of exploring map)
 }
 
 # Decoder for gene values
@@ -37,6 +38,12 @@ DECODER = {
         0b01: 0.15,  
         0b10: 0.15,   
         0b11: 0.2    
+    },
+    "exploration": {
+        0b00: 0.1,
+        0b01: 0.2,
+        0b10: 0.2,
+        0b11: 0.3
     }
 }
 

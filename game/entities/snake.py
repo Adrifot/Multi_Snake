@@ -39,6 +39,7 @@ class Snake:
         self.algorithm = traits["algorithm"]
         self.vision_range = traits["vision_range"]
         self.mutability = traits["mutability"]
+        self.exploration = traits["exploration"]
 
     def mutate(self):
         start, length = genes.LAYOUT["mutability"]
@@ -166,7 +167,12 @@ class Snake:
         print(f"Possible fallback moves from {self.position}: {possible_moves}")
         print(f"Possible direction: {safe_moves}")
         if safe_moves:
-            chosen = safe_moves[0] # CHANGE THIS LINE TO INCLUDE RANDOMNESS GENE!!!!---------------------------------------------------
+            baseline = random.random()
+            if baseline <= self.exploration:
+                randomIdx = random.randint(1, len(safe_moves)-1)
+                chosen = safe_moves[randomIdx]
+            else:
+                chosen = safe_moves[0]
             self.direction = chosen
             next_pos = (self.position[0] + chosen[0], self.position[1] + chosen[1])
             print(f"Next chosen direction: {chosen}")
