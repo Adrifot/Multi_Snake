@@ -4,6 +4,14 @@ import core.config as config
 from vnoise import Noise
 from entities.food import Food
 
+# configurable vars
+OFFSET_X = random.random() * 100
+OFFSET_Y = random.random() * 100
+SCALING_FACTOR = 10
+OCTAVES = 2
+PERSISTENCE = 0.4
+LACUNARITY = 1.5
+
 class World:
     def __init__(self):
         self.width = config.WINDOW_WIDTH// config.TILE_SIZE
@@ -19,7 +27,7 @@ class World:
         print(f"Self width: {self.width}")
         for x in range(self.height):      # x = row
             for y in range(self.width):   # y = col
-                n = noise.noise2(x/10, y/10)  # noise2(col, row)
+                n = noise.noise2(x/SCALING_FACTOR, y/SCALING_FACTOR, octaves=OCTAVES, persistence=PERSISTENCE, lacunarity=LACUNARITY)  
                 if n < -0.55:
                     grid[x][y] = 999  # Impassable
                 elif n < -0.3:

@@ -1,3 +1,4 @@
 *.pdf
 plans.md
 __pycache__/
+test.py
