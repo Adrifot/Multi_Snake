@@ -6,8 +6,8 @@ from entities.food import Food
 
 class World:
     def __init__(self):
-        self.width = config.WINDOW_X // config.TILE_SIZE
-        self.height = config.WINDOW_Y // config.TILE_SIZE
+        self.width = config.WINDOW_WIDTH// config.TILE_SIZE
+        self.height = config.WINDOW_HEIGHT // config.TILE_SIZE
         self.grid = self.generate_perlin_terrain()
         self.foods = []
         
@@ -15,34 +15,33 @@ class World:
     def generate_perlin_terrain(self):
         noise = Noise(seed=random.randint(0, 1000))
         grid = np.zeros((self.height, self.width), dtype=int)
-        
-        for y in range(self.height):
-            for x in range(self.width):
-                n = noise.noise2(x/10, y/10) # REMINDER: de citit despre restul parametrilor
+        print(f"Self height: {self.height}")
+        print(f"Self width: {self.width}")
+        for x in range(self.height):      # x = row
+            for y in range(self.width):   # y = col
+                n = noise.noise2(x/10, y/10)  # noise2(col, row)
                 if n < -0.55:
-                    grid[y][x] = 999  # Impassable
+                    grid[x][y] = 999  # Impassable
                 elif n < -0.3:
-                    grid[y][x] = 4    # Mountains (high cost)
+                    grid[x][y] = 4    # Mountains (high cost)
                 elif n < 0:
-                    grid[y][x] = 2    # Hills (medium cost)
+                    grid[x][y] = 2    # Hills (medium cost)
                 else:
-                    grid[y][x] = 1    # Grass (low cost)
+                    grid[x][y] = 1    # Grass (low cost)
         return grid
-    
-    
+
     def get_terrain_cost(self, pos):
         x, y = pos
-        if 0 <= x < self.width and 0 <= y < self.height:
-            return self.grid[y][x]
+        if 0 <= x < self.height and 0 <= y < self.width:
+            return self.grid[x][y]
         return 999
-    
-    
+
     def is_valid_position(self, pos):
         x, y = pos
         return (
-            0 <= x < self.width and 
-            0 <= y < self.height and 
-            self.grid[y][x] != 999
+            0 <= x < self.height and 
+            0 <= y < self.width and 
+            self.grid[x][y] != 999
         )
         
         

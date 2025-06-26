@@ -2,10 +2,10 @@ import pygame
 import core.config as config
 from core.algorithms import manhattan
 from entities.snake import Snake
-from core.genes import crossover, mutate
 from simulation.world import World
 from simulation.renderer import Renderer
 import random
+from operator import attrgetter
 
 class GameController:
     def __init__(self):
@@ -15,30 +15,41 @@ class GameController:
         self.running = False
         self.paused = False
         self.generation = 0
-        
-        valid_tiles = [
-            (x, y)
-            for y in range(len(self.world.grid))
-            for x in range(len(self.world.grid[0]))
-            if self.world.grid[y][x] != 999
-        ]
-        
-        initial_snake_count = config.SNAKE_COUNT
-        
-        spawn_positions = random.sample(valid_tiles, initial_snake_count)
-        
+        self.snakes = []  
+        self.foods = []   
+        self._spawn_initial_snakes() 
+
+    def _spawn_initial_snakes(self):
+        valid_starts = []
+        for x in range(self.world.grid.shape[0]):  # x = row
+            for y in range(self.world.grid.shape[1]):  # y = col
+                for dx, dy in [(1,0), (-1,0), (0,1), (0,-1)]:
+                    ok = True
+                    body_positions = []
+                    for i in range(3):
+                        nx, ny = x - i*dx, y - i*dy
+                        if not (0 <= nx < self.world.grid.shape[0] and 0 <= ny < self.world.grid.shape[1]):
+                            ok = False
+                            break
+                        if self.world.grid[nx][ny] == 999:
+                            ok = False
+                            break
+                        body_positions.append((nx, ny))
+                    if ok and len(set(body_positions)) == 3:
+                        valid_starts.append(((x, y), (dx, dy)))
+        spawn_count = min(config.SNAKE_COUNT, len(valid_starts))
+        if spawn_count == 0:
+            raise ValueError("No valid spawn positions available in the world")
+        chosen = random.sample(valid_starts, spawn_count)
         self.snakes = [
-            Snake(
-                position=pos,
-                direction=random.choice([(1, 0), (-1, 0), (0, 1), (0, -1)]),
-                color=random.choice(list(config.SNAKE_COLORS.keys()))
-            )
-            for pos in spawn_positions
+            Snake(position=pos, direction=dir, color=random.choice(list(config.SNAKE_COLORS.keys())))
+            for pos, dir in chosen
         ]
-        
         self.foods = self.world.spawn_food(config.FOOD_NR, self.snakes)
-        
-        
+        print(f"Snakes after spawn: {len(self.snakes)}")
+        print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
+        return self.snakes
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -46,137 +57,78 @@ class GameController:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.paused = not self.paused
-                elif event.key == pygame.K_r:
-                    self._reset_simulation()
-                   
-                    
+                # elif event.key == pygame.K_r:
+                #     self.reset_simulation()
+
     def reset_simulation(self):
+        print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
         self.generation += 1
         self.snakes = self.evolve_snakes()
         self.foods = self.world.spawn_food(config.FOOD_NR, self.snakes)
-        
-        
+
     def evolve_snakes(self):
-        survivors = sorted(self.snakes, key=lambda s: s.score, reverse=True)[:max(1, len(self.snakes)//5)]
+        if not self.snakes:
+            return self._spawn_initial_snakes()
+
+        # Sort snakes by score and take top 20%
+        survivors = sorted(self.snakes, key=attrgetter('score'), reverse=True)[:max(1, len(self.snakes)//5)]
         new_snakes = []
-        if not survivors:
-            # No survivors, create new random snakes
+        
+        # Create offspring from survivors
+        for _ in range(len(self.snakes)):
+            parent1 = random.choice(survivors)
+            parent2 = random.choice(survivors)
+            while parent2 == parent1 and len(survivors) > 1:
+                parent2 = random.choice(survivors)
+                
             valid_tiles = [
                 (x, y)
-                for y in range(len(self.world.grid))
-                for x in range(len(self.world.grid[0]))
-                if self.world.grid[y][x] != 999
+                for x in range(self.world.grid.shape[0])
+                for y in range(self.world.grid.shape[1])
+                if self.world.grid[x][y] != 999
             ]
-            spawn_positions = random.sample(valid_tiles, config.SNAKE_COUNT)
-            for pos in spawn_positions:
-                new_snakes.append(
-                    Snake(
-                        position=pos,
-                        direction=random.choice([(1, 0), (-1, 0), (0, 1), (0, -1)]),
-                        color=random.choice(list(config.SNAKE_COLORS.keys()))
-                    )
-                )
-            return new_snakes
-
-
-        for _ in range(len(self.snakes)):
-            parent1, parent2 = random.choices(survivors, k=2)
+            spawn_pos = random.choice(valid_tiles)
+            
             new_snakes.append(
-                Snake(
-                    position=(random.randint(5, 15), random.randint(5, 15)),
-                    direction=random.choice([(1,0), (-1,0), (0,1), (0,-1)]),
-                    color=random.choice(list(config.SNAKE_COLORS.keys())),
-                    parent1=parent1, parent2=parent2
-                )
+                Snake(position=spawn_pos,
+                      direction=random.choice([(1, 0), (-1, 0), (0, 1), (0, -1)]),
+                      color=random.choice(list(config.SNAKE_COLORS.keys())),
+                      parent1=parent1,
+                      parent2=parent2)
             )
         return new_snakes
-    
-    
+
+
     def update(self):
         if self.paused:
             return
 
-        # Phase 1: Decide next moves
-        next_positions = {}
-        all_bodies = set()
+        # Get all body positions from living snakes
+        all_bodies = {pos for s in self.snakes if s.alive for pos in s.body} # 'NoneType' object is not iterable - why is self.snakes None???
+
+        # First decide movements for all snakes
         for snake in self.snakes:
-            if snake.alive:
-                all_bodies.update(snake.body)
+            if not snake.alive:
+                continue
+                
+            # Get nearby bodies from other snakes (within vision range, excluding our own body)
+            other_bodies = {
+                pos for pos in all_bodies - set(snake.body)
+                if manhattan(snake.position, pos) <= snake.vision_range
+            }
+            snake.decide_movement(self.world.grid, [f.position for f in self.foods], other_bodies)
 
         for snake in self.snakes:
             if not snake.alive:
                 continue
-            # Only include bodies within vision range
-            other_bodies = {pos for pos in all_bodies
-                            if manhattan(snake.position, pos) <= snake.vision_range}
-            other_bodies -= set(snake.body[-1:])
-            snake.decide_movement(self.world.grid, [food.position for food in self.foods])
-        
-            for snake in self.snakes:
-                if not snake.alive:
-                    continue
-            
-                other_bodies = {pos for pos in all_bodies
-                                if manhattan(snake.position, pos) <= snake.vision_range}
-                other_bodies -= set(snake.body[-1:])
-                snake.decide_movement(self.world.grid, [food.position for food in self.foods])
-
-                next_pos = None
-                if snake.path and snake.step < len(snake.path):
-                    candidate = snake.path[snake.step]
-                    if (0 <= candidate[0] < len(self.world.grid[0]) and
-                        0 <= candidate[1] < len(self.world.grid) and
-                        self.world.grid[candidate[1]][candidate[0]] != 999 and
-                        candidate not in other_bodies):
-                        next_pos = candidate
-                    else:
-                        next_pos = snake.get_fallback_move(self.world.grid, other_bodies)
-                else:
-                    next_pos = snake.get_fallback_move(self.world.grid, other_bodies)
-                    
-                next_positions[snake] = next_pos
-
-        # Phase 2: Check for collisions
-        occupied = {}
-        for snake, pos in next_positions.items():
-            if not (0 <= pos[0] < len(self.world.grid[0]) and 0 <= pos[1] < len(self.world.grid)):
-                snake.alive = False
+                
+            # Get other snakes' bodies
+            other_bodies = all_bodies - set(snake.body)
+            moved = snake.move(self.world.grid, other_bodies)
+            if not moved:
                 continue
-            if self.world.grid[pos[1]][pos[0]] == 999:
-                snake.alive = False
-                continue
-            # Check if another snake is moving to the same position
-            if pos in occupied:
-                snake.alive = False
-                occupied[pos].alive = False
-                continue
-            # Check if moving into any body
-            body_positions = set()
-            for other in self.snakes:
-                if not other.alive:
-                    continue
-                # Exclude own tail (since it will move)
-                if other is snake:
-                    body_positions.update(other.body[:-1])
-                else:
-                    body_positions.update(other.body)
-            if pos in body_positions:
-                snake.alive = False
-                continue
-
-        # Phase 3: Move snakes
-        for snake in self.snakes:
-            if not snake.alive:
-                continue
-            pos = next_positions[snake]
-            snake.position = pos
-            snake.body.insert(0, pos)
-            if len(snake.body) > max(3, snake.score + 3):
-                snake.body.pop()
-            if snake.path and snake.step < len(snake.path):
-                snake.step += 1
-
-            for food in self.foods:
+                
+            for food in self.foods[:]: 
                 if snake.position == food.position:
                     snake.grow()
                     snake.energy += config.FOOD_ENERGY
@@ -184,19 +136,21 @@ class GameController:
                     break
 
         # Remove dead snakes
-        self.snakes = [snake for snake in self.snakes if snake.alive]
+        self.snakes = [s for s in self.snakes if s.alive]
 
-        if all(not snake.alive for snake in self.snakes):
+        # Check for extinction
+        if not self.snakes:
+            print("sim reset") 
             self.reset_simulation()
-        
-        # Pahse 4: spawn more food
-        food_needed = config.FOOD_NR - len(self.foods)
-        if food_needed > 0:
-            new_foods = self.world.spawn_food(food_needed, self.snakes)
-            self.foods.extend(new_foods)
-    
+
+        # Maintain food count
+        if len(self.foods) < config.FOOD_NR:
+            new_food = self.world.spawn_food(config.FOOD_NR - len(self.foods), self.snakes)
+            self.foods.extend(new_food)
+
     def run(self):
         self.running = True
+        print("Grid shape:", self.world.grid.shape)
         while self.running:
             self.handle_events()
             self.update()

@@ -14,9 +14,9 @@ class Food:
             
         valid_positions = [
             (x, y)
-            for y in range(len(grid))
-            for x in range(len(grid[0]))
-            if grid[y][x] != 999 and (x, y) not in occupied
+            for y in range(grid.shape[1])
+            for x in range(grid.shape[0])
+            if grid[x][y] != 999 and (x, y) not in occupied
         ]
         
         return [
