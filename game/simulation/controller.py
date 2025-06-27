@@ -18,9 +18,9 @@ class GameController:
         self.tick_count = 0
         self.snakes = []  
         self.foods = []   
-        self._spawn_initial_snakes() 
+        self.spawn_initial_snakes() 
 
-    def _spawn_initial_snakes(self):
+    def spawn_initial_snakes(self):
         valid_starts = []
         for x in range(self.world.grid.shape[0]):  # x = row
             for y in range(self.world.grid.shape[1]):  # y = col
@@ -64,19 +64,42 @@ class GameController:
     def reset_simulation(self):
         print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
         self.generation += 1
+        print(f"Generation {self.generation}")
         self.snakes = self.evolve_snakes()
-        self.foods = self.world.spawn_food(config.FOOD_NR, self.snakes)
+        # --- Food logic: keep survivors, fill up to FOOD_NR using survivors as parents ---
+        survivor_foods = self.foods[:]  # keep current foods
+        needed = config.FOOD_NR - len(survivor_foods)
+        if needed > 0:
+            new_foods = self.world.spawn_food(needed, self.snakes, survivor_foods)
+            self.foods = survivor_foods + new_foods
+        else:
+            self.foods = survivor_foods
 
     def evolve_snakes(self):
         if not self.snakes:
-            return self._spawn_initial_snakes()
+            return self.spawn_initial_snakes()
 
         # Sort snakes by score and take top 20%
-        survivors = sorted(self.snakes, key=attrgetter('score'), reverse=True)[:max(1, len(self.snakes)//5)]
+        for snake in self.snakes:
+            snake.fitness = len(snake.body) * config.LENGTH_WEIGHT + snake.score * config.SCORE_WEIGHT + snake.energy * config.ENERGY_WEIGHT
+        
+        num_snakes = len(self.snakes)
+        def get_selected_count(survived_nr):
+            if survived_nr in range(2, 5):
+                return 2
+            elif survived_nr in range(6, 17):
+                return 3
+            else:
+                return survived_nr//5
+            
+        selected_count = get_selected_count(num_snakes)
+        survivors = sorted(self.snakes, key=attrgetter('fitness'), reverse=True)[:selected_count]
+        
+        print(f"{len(survivors)} snakes survived. Yay!")
         new_snakes = []
         
         # Create offspring from survivors
-        for _ in range(len(self.snakes)):
+        for _ in range(config.SNAKE_COUNT + random.randint(-2, 2) * config.SNAKE_COUNT//4):
             parent1 = random.choice(survivors)
             parent2 = random.choice(survivors)
             while parent2 == parent1 and len(survivors) > 1:
@@ -111,13 +134,12 @@ class GameController:
         for snake in self.snakes:
             if not snake.alive:
                 continue
-                
-            # Get nearby bodies from other snakes (within vision range, excluding our own body)
             other_bodies = {
                 pos for pos in all_bodies - set(snake.body)
                 if manhattan(snake.position, pos) <= snake.vision_range
             }
-            snake.decide_movement(self.world.grid, [f.position for f in self.foods], other_bodies)
+            # Pass the list of food objects, not just positions!
+            snake.decide_movement(self.world.grid, self.foods, other_bodies)
 
         for snake in self.snakes:
             if not snake.alive:
@@ -138,7 +160,8 @@ class GameController:
                         snake.energy += config.FOOD_ENERGY
                         snake.energy = min(snake.energy, snake.max_energy)
                     else:
-                        snake.energy -= food.energy_factor * config.FOOD_ENERGY
+                        penalty = food.energy_factor * config.FOOD_ENERGY * snake.toxic_resistance
+                        snake.energy -= penalty
                         snake.score += 3
                     self.foods.remove(food)
                     break
@@ -160,6 +183,10 @@ class GameController:
             if needed > 0:
                 new_foods = self.world.spawn_food(needed, self.snakes, survivor_foods)
                 self.foods.extend(new_foods)
+                
+        if self.tick_count % config.SNAKE_GENERATION_INTERVAL == 0:
+            self.reset_simulation()
+
 
     def run(self):
         self.running = True

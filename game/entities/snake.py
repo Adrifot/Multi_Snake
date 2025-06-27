@@ -42,6 +42,9 @@ class Snake:
         self.max_energy = traits["max_energy"]
         self.energy = self.max_energy
         self.timidity = traits["timidity"]
+        self.toxic_reaction = traits["toxic_reaction"]
+        self.toxic_resistance = traits["toxic_resistance"]
+        self.food_preference = traits["food_preference"]
 
     def mutate(self):
         start, length = genes.LAYOUT["mutability"]
@@ -66,18 +69,27 @@ class Snake:
         obstacles = expanded_obstacles.union(set(self.body[1:-1]))
         
         visible_food = algorithms.foods_in_vision(self.position, foods, self.vision_range)
+        if self.food_preference == "high":
+            visible_food.sort(key=lambda f: -f.energy_factor)
+        elif self.food_preference == "low":
+            visible_food.sort(key=lambda f: f.energy_factor)
         # print(f"{len(visible_food)} foods seen")
         if visible_food:
             # print(f"FOOD DETECTED: {len(visible_food)} foods seen")
             # print(f"Calling {self.algorithm.__name__} with: position={self.position}, visible_food={visible_food}, obstacles={obstacles}")
-            self.path = self.algorithm(
-                grid, 
-                self.position, 
-                visible_food, 
-                self.vision_range,
-                obstacles,
-                self.direction  # Pass current direction
-            )
+            food_positions = [f.position for f in visible_food]
+            if food_positions:
+                self.path = self.algorithm(
+                    grid, self.position, food_positions, self.vision_range, obstacles, self.direction
+                )
+            # self.path = self.algorithm(
+            #     grid, 
+            #     self.position, 
+            #     visible_food, 
+            #     self.vision_range,
+            #     obstacles,
+            #     self.direction  # Pass current direction
+            # )
             # print(f"Path found: {self.path}")
         else:
             self.path = []
@@ -90,7 +102,7 @@ class Snake:
 
         # Include own body (except head) in collision checks
         collision_bodies = other_bodies.union(set(self.body[1:-1]))
-        
+
         next_pos = None 
         if self.path and self.step < len(self.path):
             next_pos = self.path[self.step]

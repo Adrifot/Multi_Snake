@@ -21,8 +21,7 @@ def get_neighbors(grid, pos, current_direction=None):
     return neighbors
 
 def foods_in_vision(snake_pos, foods, vision_range):
-    """Find foods within vision range of snake_pos (x, y)"""
-    return [food for food in foods if manhattan(snake_pos, food) <= vision_range]
+    return [food for food in foods if manhattan(snake_pos, food.position) <= vision_range]
 
 def greedy(grid, start, goals, vision_range, obstacles=None, current_direction=None):
     """Greedy best-first search: always expand the node closest to any goal."""

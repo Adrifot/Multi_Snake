@@ -2,7 +2,7 @@ import random
 import core.algorithms as algos
 
 # ----- Constants ------
-CHROMOSOME_LENGTH = 14
+CHROMOSOME_LENGTH = 20
 
 # Gene layout: gene_name: (start_bit, length)
 LAYOUT = {
@@ -12,7 +12,10 @@ LAYOUT = {
     "mutability": (6, 2),    # 2 bits (mutation probability)
     "exploration": (8, 2), # 2 bits (chance of random movements in the absence of food)
     "max_energy": (10, 2), # starting and maximum energy
-    "timidity": (12, 2)
+    "timidity": (12, 2),
+    "toxic_reaction": (14, 2),
+    "toxic_resistance": (16, 2),
+    "food_preference": (18, 2),
 }
 
 # Decoder for gene values
@@ -48,16 +51,34 @@ DECODER = {
         0b11: 0.40
     },
     "max_energy": {
-        0b00: 100,
-        0b01: 200,
-        0b10: 200,
-        0b11: 300
+        0b00: 150,
+        0b01: 250,
+        0b10: 250,
+        0b11: 350
     },
     "timidity": { # number of tiles around other snakes that will be avoided
         0b00: 0,
         0b01: 1,
         0b10: 1,
         0b11: 4
+    },
+    "toxic_reaction": {
+        0b00: "ignore",
+        0b01: "avoid",
+        0b10: "avoid",
+        0b11: "prefer"
+    },
+    "toxic_resistance": {
+        0b00: 1.5,
+        0b01: 1.0,
+        0b10: 1.0,
+        0b11: 0.5
+    },
+    "food_preference": {
+        0b00: "low",
+        0b01: "none",
+        0b10: "none",
+        0b11: "high"
     }
 }
 
