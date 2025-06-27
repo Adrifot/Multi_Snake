@@ -24,8 +24,8 @@ class World:
     def generate_perlin_terrain(self):
         noise = Noise(seed=random.randint(0, 1000))
         grid = np.zeros((self.height, self.width), dtype=int)
-        print(f"Self height: {self.height}")
-        print(f"Self width: {self.width}")
+        # print(f"Self height: {self.height}")
+        # print(f"Self width: {self.width}")
         for x in range(self.height):      # x = row
             for y in range(self.width):   # y = col
                 n = noise.noise2(x/SCALING_FACTOR, y/SCALING_FACTOR, octaves=OCTAVES, persistence=PERSISTENCE, lacunarity=LACUNARITY)  

@@ -27,10 +27,10 @@ DECODER = {
         0b11: algos.a_star
     },
     "vision_range": {
-        0b00: 15, 
-        0b01: 25,  
-        0b10: 25,  
-        0b11: 35   
+        0b00: 5, 
+        0b01: 10,  
+        0b10: 10,  
+        0b11: 15   
     },
     "gene_dominance": {
         0b00: -0.1,  
@@ -51,10 +51,10 @@ DECODER = {
         0b11: 0.40
     },
     "max_energy": {
-        0b00: 150,
-        0b01: 250,
-        0b10: 250,
-        0b11: 350
+        0b00: 700,
+        0b01: 1000,
+        0b10: 1000,
+        0b11: 1300
     },
     "timidity": { # number of tiles around other snakes that will be avoided
         0b00: 0,
