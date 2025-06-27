@@ -9,7 +9,7 @@ class Snake:
         self.position = position
         self.direction = direction
         dx, dy = direction
-        print(f"Spawning direction is {self.direction}")
+        # print(f"Spawning direction is {self.direction}")
         self.body = [
             position,
             (position[0] - dx, position[1] - dy),
@@ -41,6 +41,7 @@ class Snake:
         self.exploration = traits["exploration"]
         self.max_energy = traits["max_energy"]
         self.energy = self.max_energy
+        self.timidity = traits["timidity"]
 
     def mutate(self):
         start, length = genes.LAYOUT["mutability"]
@@ -52,14 +53,23 @@ class Snake:
         if other_bodies is None:
             other_bodies = set()
         
+        # expand obstacles using timidity
+        expanded_obstacles = set()
+        for pos in other_bodies:
+            for dx in range(-self.timidity, self.timidity + 1):
+                for dy in range(-self.timidity, self.timidity + 1):
+                    nx, ny = pos[0] + dx, pos[1] + dy
+                    if 0 <= nx < grid.shape[0] and 0 <= ny < grid.shape[1]:
+                        expanded_obstacles.add((nx, ny))
+        
         # Include own body (except tail) in obstacles
-        obstacles = other_bodies.union(set(self.body[1:-1]))
+        obstacles = expanded_obstacles.union(set(self.body[1:-1]))
         
         visible_food = algorithms.foods_in_vision(self.position, foods, self.vision_range)
-        print(f"{len(visible_food)} foods seen")
+        # print(f"{len(visible_food)} foods seen")
         if visible_food:
-            print(f"FOOD DETECTED: {len(visible_food)} foods seen")
-            print(f"Calling {self.algorithm.__name__} with: position={self.position}, visible_food={visible_food}, obstacles={obstacles}")
+            # print(f"FOOD DETECTED: {len(visible_food)} foods seen")
+            # print(f"Calling {self.algorithm.__name__} with: position={self.position}, visible_food={visible_food}, obstacles={obstacles}")
             self.path = self.algorithm(
                 grid, 
                 self.position, 
@@ -68,7 +78,7 @@ class Snake:
                 obstacles,
                 self.direction  # Pass current direction
             )
-            print(f"Path found: {self.path}")
+            # print(f"Path found: {self.path}")
         else:
             self.path = []
         self.step = 0
@@ -142,7 +152,7 @@ class Snake:
             print("Died: too short")
             return False
 
-        print(f"Moved to position {self.position}")
+        # print(f"Moved to position {self.position}")
         
         return True
 
@@ -163,22 +173,22 @@ class Snake:
             if 0 <= nx < grid.shape[0] and 0 <= ny < grid.shape[1]: # check if out of bounds
                 if grid[nx][ny] != 999 and (nx, ny) not in collision_bodies: # check if obstacle
                     safe_moves.append((dx, dy))
-            else:
-                print(f"{(nx, ny)} is an invalid position because it's out of bounds!")
-        print(f"Possible fallback moves from {self.position}: {possible_moves}")
-        print(f"Possible direction: {safe_moves}")
+            # else:
+        #         print(f"{(nx, ny)} is an invalid position because it's out of bounds!")
+        # print(f"Possible fallback moves from {self.position}: {possible_moves}")
+        # print(f"Possible direction: {safe_moves}")
         if safe_moves:
             baseline = random.random()
             if baseline <= self.exploration:
-                randomIdx = random.randint(1, len(safe_moves)-1)
+                randomIdx = random.randint(0, len(safe_moves)-1)
                 chosen = safe_moves[randomIdx]
             else:
                 chosen = safe_moves[0]
             self.direction = chosen
             next_pos = (self.position[0] + chosen[0], self.position[1] + chosen[1])
-            print(f"Next chosen direction: {chosen}")
+            # print(f"Next chosen direction: {chosen}")
             return next_pos
-        print(f"No safe moves - keep current direction: {self.direction}")
+        # print(f"No safe moves - keep current direction: {self.direction}")
         # Try to move in the current direction even if not safe
         next_pos = (self.position[0] + self.direction[0], self.position[1] + self.direction[1])
         return next_pos

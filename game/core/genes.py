@@ -2,7 +2,7 @@ import random
 import core.algorithms as algos
 
 # ----- Constants ------
-CHROMOSOME_LENGTH = 12
+CHROMOSOME_LENGTH = 14
 
 # Gene layout: gene_name: (start_bit, length)
 LAYOUT = {
@@ -11,7 +11,8 @@ LAYOUT = {
     "gene_dominance": (4, 2), # 2 bits (affects crossover bias)
     "mutability": (6, 2),    # 2 bits (mutation probability)
     "exploration": (8, 2), # 2 bits (chance of random movements in the absence of food)
-    "max_energy": (10, 2) # starting and maximum energy
+    "max_energy": (10, 2), # starting and maximum energy
+    "timidity": (12, 2)
 }
 
 # Decoder for gene values
@@ -51,6 +52,12 @@ DECODER = {
         0b01: 200,
         0b10: 200,
         0b11: 300
+    },
+    "timidity": { # number of tiles around other snakes that will be avoided
+        0b00: 0,
+        0b01: 1,
+        0b10: 1,
+        0b11: 3
     }
 }
 
