@@ -15,6 +15,7 @@ class GameController:
         self.running = False
         self.paused = False
         self.generation = 0
+        self.tick_count = 0
         self.snakes = []  
         self.foods = []   
         self._spawn_initial_snakes() 
@@ -102,7 +103,7 @@ class GameController:
     def update(self):
         if self.paused:
             return
-
+        self.tick_count += 1
         # Get all body positions from living snakes
         all_bodies = {pos for s in self.snakes if s.alive for pos in s.body} # 'NoneType' object is not iterable - why is self.snakes None???
 
@@ -129,7 +130,7 @@ class GameController:
                 continue
                 
             for food in self.foods[:]: 
-                print(food.moving)
+                # print(food.moving)
                 food.move(self.world.grid, self.snakes)
                 if snake.position == food.position:
                     if food.toxic == False:
@@ -146,14 +147,19 @@ class GameController:
         self.snakes = [s for s in self.snakes if s.alive]
 
         # Check for extinction
-        if not self.snakes:
+        if not self.snakes: # REMINDER - MODIFY TO END THE SIMULATION HERE AND SHOW STATS
             print("sim reset") 
             self.reset_simulation()
 
-        # Maintain food count
-        if len(self.foods) < config.FOOD_NR:
-            new_food = self.world.spawn_food(config.FOOD_NR - len(self.foods), self.snakes)
-            self.foods.extend(new_food)
+        # food respawn
+        if self.tick_count % config.FOOD_RESPAWN_RATE == 0:
+            # Survivor foods are the ones still on the map
+            survivor_foods = self.foods[:]
+            # Reproduce/mutate to fill up to FOOD_NR
+            needed = config.FOOD_NR - len(survivor_foods)
+            if needed > 0:
+                new_foods = self.world.spawn_food(needed, self.snakes, survivor_foods)
+                self.foods.extend(new_foods)
 
     def run(self):
         self.running = True

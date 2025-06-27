@@ -3,6 +3,7 @@ import random
 import core.config as config
 from vnoise import Noise
 from entities.food import Food
+from core.genes import mutate
 
 # configurable vars
 OFFSET_X = random.random() * 100
@@ -44,7 +45,38 @@ class World:
             return self.grid[x][y]
         return 999
         
-    def spawn_food(self, count, snakes=None):
-        if snakes is None:
-            snakes = []
-        return Food.spawn_batch(self.grid, count, snakes)
+    def spawn_food(self, count, snakes=None, parent_foods=None):
+        occupied = set()
+        if snakes:
+            for snake in snakes:
+                occupied.update(snake.body)
+        valid_positions = [
+            (x, y)
+            for x in range(self.grid.shape[0])
+            for y in range(self.grid.shape[1])
+            if self.grid[x][y] != 999 and (x, y) not in occupied
+        ]
+        # Use survivor foods as parents
+        new_foods = []
+        for _ in range(min(count, len(valid_positions))):
+            pos = random.choice(valid_positions)
+            if parent_foods and len(parent_foods) > 1:
+                parent1 = random.choice(parent_foods)
+                parent2 = random.choice(parent_foods)
+                while parent2 == parent1:
+                    parent2 = random.choice(parent_foods)
+
+                chr = 0
+                for i in range(5): 
+                    bit_mask = 1 << i
+                    if random.random() < 0.5:
+                        chr |= (parent1.chromosome & bit_mask)
+                    else:
+                        chr |= (parent2.chromosome & bit_mask)
+
+                # Mutation
+                chr = mutate(chr, 0.15, 5)
+                new_foods.append(Food(pos, chromosome=chr))
+            else:
+                new_foods.append(Food(pos))
+        return new_foods

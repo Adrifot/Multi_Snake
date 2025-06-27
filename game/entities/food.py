@@ -31,20 +31,3 @@ class Food:
         valid = [n for n in neighbors if n not in occupied]
         if valid and random.random() <= 0.5:
             self.position = random.choice(valid)
-    
-    
-    @classmethod
-    def spawn_batch(cls, grid, count, snakes=[]):
-        occupied = set()
-        for snake in snakes:
-            occupied.update(snake.body)
-        valid_positions = [
-            (x, y)
-            for x in range(grid.shape[0])
-            for y in range(grid.shape[1])
-            if grid[x][y] != 999 and (x, y) not in occupied
-        ]
-        return [
-            Food(position, chromosome=genes.random_chromosome(5))
-            for position in random.sample(valid_positions, min(count, len(valid_positions)))
-        ]

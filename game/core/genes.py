@@ -71,9 +71,9 @@ def random_chromosome(l = CHROMOSOME_LENGTH) -> int:
     return random.getrandbits(l)
 
 
-def mutate(chromosome: int, mutation_rate: float) -> int:
+def mutate(chromosome: int, mutation_rate: float, l=CHROMOSOME_LENGTH) -> int:
     if random.random() < mutation_rate:
-        bit_to_flip = random.randint(0, CHROMOSOME_LENGTH - 1)
+        bit_to_flip = random.randint(0, l - 1)
         return chromosome ^ (1 << bit_to_flip)
     return chromosome
 
