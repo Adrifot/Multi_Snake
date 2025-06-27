@@ -24,6 +24,12 @@ LAND_COLORS = {
     999: (25, 20, 16) # dark impassable peaks
 }
 
+FOOD_COLORS = {
+    "low": (205, 205, 205),
+    "med": (230, 230, 230),
+    "high": (255, 255, 255),
+}
+
 SNAKE_COLORS = {
     "blue": (38, 84, 124),
     "lightblue": (110, 250, 251),

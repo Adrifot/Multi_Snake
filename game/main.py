@@ -1,4 +1,3 @@
-import pygame
 from simulation.controller import GameController
 import core.config as config
 

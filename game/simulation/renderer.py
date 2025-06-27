@@ -41,11 +41,26 @@ class Renderer:
 
     def draw_food(self, foods):
         for food in foods:
-            pygame.draw.rect(
-                self.screen, config.FOOD_COLOR,
-                (food.position[1] * config.TILE_SIZE, food.position[0] * config.TILE_SIZE,  # <-- swapped
-                config.TILE_SIZE, config.TILE_SIZE)
+            # Decide color based on toxicity and energy_factor
+            if food.energy_factor == 0.5:
+                color = config.FOOD_COLORS["low"]
+            elif food.energy_factor == 1.0:
+                color = config.FOOD_COLORS["med"]
+            else:
+                color = config.FOOD_COLORS["high"]
+
+            rect = pygame.Rect(
+                food.position[1] * config.TILE_SIZE,
+                food.position[0] * config.TILE_SIZE,
+                config.TILE_SIZE,
+                config.TILE_SIZE
             )
+
+            pygame.draw.rect(self.screen, color, rect)
+
+            if food.toxic:
+                pygame.draw.line(self.screen, (255, 0, 0), rect.topleft, rect.bottomright, 2)
+                pygame.draw.line(self.screen, (255, 0, 0), rect.topright, rect.bottomleft, 2)
             
             
     def draw(self, snakes, foods):
