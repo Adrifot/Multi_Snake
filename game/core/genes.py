@@ -57,7 +57,7 @@ DECODER = {
         0b00: 0,
         0b01: 1,
         0b10: 1,
-        0b11: 3
+        0b11: 4
     }
 }
 
@@ -67,8 +67,8 @@ def extract(chromosome: int, start: int, length: int) -> int:
     return (chromosome >> start) & mask
 
 
-def random_chromosome() -> int:
-    return random.getrandbits(CHROMOSOME_LENGTH)
+def random_chromosome(l = CHROMOSOME_LENGTH) -> int:
+    return random.getrandbits(l)
 
 
 def mutate(chromosome: int, mutation_rate: float) -> int:

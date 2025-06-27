@@ -129,10 +129,16 @@ class GameController:
                 continue
                 
             for food in self.foods[:]: 
+                print(food.moving)
+                food.move(self.world.grid, self.snakes)
                 if snake.position == food.position:
-                    snake.grow()
-                    snake.energy += config.FOOD_ENERGY
-                    snake.energy = min(snake.energy, snake.max_energy)
+                    if food.toxic == False:
+                        snake.grow()
+                        snake.energy += config.FOOD_ENERGY
+                        snake.energy = min(snake.energy, snake.max_energy)
+                    else:
+                        snake.energy -= food.energy_factor * config.FOOD_ENERGY
+                        snake.score += 3
                     self.foods.remove(food)
                     break
 
