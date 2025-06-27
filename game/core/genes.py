@@ -19,7 +19,7 @@ DECODER = {
     "algorithm": {
         0b00: algos.greedy,
         0b01: algos.bfs,
-        0b10: algos.dijkstra, 
+        0b10: algos.ucs, 
         0b11: algos.a_star
     },
     "vision_range": {
@@ -48,9 +48,9 @@ DECODER = {
     },
     "max_energy": {
         0b00: 100,
-        0b01: 150,
-        0b10: 150,
-        0b11: 200
+        0b01: 200,
+        0b10: 200,
+        0b11: 300
     }
 }
 

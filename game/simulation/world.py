@@ -43,15 +43,6 @@ class World:
         if 0 <= x < self.height and 0 <= y < self.width:
             return self.grid[x][y]
         return 999
-
-    def is_valid_position(self, pos):
-        x, y = pos
-        return (
-            0 <= x < self.height and 
-            0 <= y < self.width and 
-            self.grid[x][y] != 999
-        )
-        
         
     def spawn_food(self, count, snakes=None):
         if snakes is None:

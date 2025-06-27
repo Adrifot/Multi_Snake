@@ -84,8 +84,8 @@ def bfs(grid, start, goals, vision_range, obstacles=None, current_direction=None
                 queue.append(neighbor)
     return None
 
-def dijkstra(grid, start, goals, vision_range, obstacles=None, current_direction=None):
-    """Dijkstra's algorithm for lowest-cost path (terrain cost)."""
+def ucs(grid, start, goals, vision_range, obstacles=None, current_direction=None):
+    """UCS algorithm for lowest-cost path (terrain cost)."""
     goals = set(goals)
     heap = [(0, start)]
     came_from = {start: None}
@@ -143,4 +143,4 @@ def a_star(grid, start, goals, vision_range, obstacles=None, current_direction=N
                 came_from[neighbor] = current
     return None
 
-__all__ = ['a_star', 'bfs', 'greedy', 'foods_in_vision', 'dijkstra']
+__all__ = ['a_star', 'bfs', 'greedy', 'foods_in_vision', 'ucs']
