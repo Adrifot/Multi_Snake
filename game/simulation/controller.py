@@ -153,7 +153,6 @@ class GameController:
                 
             for food in self.foods[:]: 
                 # print(food.moving)
-                food.move(self.world.grid, self.snakes)
                 if snake.position == food.position:
                     if food.toxic == False:
                         snake.grow()
@@ -165,6 +164,10 @@ class GameController:
                         snake.score += 3
                     self.foods.remove(food)
                     break
+            
+        for food in self.foods[:]: 
+            # print(food.moving)
+            food.move(self.world.grid, self.snakes)
 
         # Remove dead snakes
         self.snakes = [s for s in self.snakes if s.alive]

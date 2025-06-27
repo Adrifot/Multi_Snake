@@ -29,5 +29,7 @@ class Food:
         occupied = {pos for snake in snakes for pos in snake.body}
         neighbors = get_neighbors(grid, self.position)
         valid = [n for n in neighbors if n not in occupied]
-        if valid and random.random() <= 0.5:
-            self.position = random.choice(valid)
+        if valid and random.random() <= 0.33:
+            new_pos = random.choice(valid)
+            # print(f"Food at {self.position} moves to {new_pos}")
+            self.position = new_pos
