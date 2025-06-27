@@ -82,15 +82,6 @@ class Snake:
                 self.path = self.algorithm(
                     grid, self.position, food_positions, self.vision_range, obstacles, self.direction
                 )
-            # self.path = self.algorithm(
-            #     grid, 
-            #     self.position, 
-            #     visible_food, 
-            #     self.vision_range,
-            #     obstacles,
-            #     self.direction  # Pass current direction
-            # )
-            # print(f"Path found: {self.path}")
         else:
             self.path = []
         self.step = 0
@@ -185,17 +176,12 @@ class Snake:
             if 0 <= nx < grid.shape[0] and 0 <= ny < grid.shape[1]: # check if out of bounds
                 if grid[nx][ny] != 999 and (nx, ny) not in collision_bodies: # check if obstacle
                     safe_moves.append((dx, dy))
-            # else:
-        #         print(f"{(nx, ny)} is an invalid position because it's out of bounds!")
-        # print(f"Possible fallback moves from {self.position}: {possible_moves}")
-        # print(f"Possible direction: {safe_moves}")
         if safe_moves:
             baseline = random.random()
             if baseline <= self.exploration:
-                randomIdx = random.randint(0, len(safe_moves)-1)
-                chosen = safe_moves[randomIdx]
+                chosen = random.choice(safe_moves)
             else:
-                chosen = safe_moves[0]
+                chosen = self.direction
             self.direction = chosen
             next_pos = (self.position[0] + chosen[0], self.position[1] + chosen[1])
             # print(f"Next chosen direction: {chosen}")

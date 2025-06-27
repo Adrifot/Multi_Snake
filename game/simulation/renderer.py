@@ -8,7 +8,7 @@ class Renderer:
     def __init__(self, world):
         pygame.init()
         self.world = world
-        self.screen = pygame.display.set_mode((config.WINDOW_WIDTH, config.WINDOW_HEIGHT))
+        self.screen = pygame.display.set_mode((config.WINDOW_WIDTH + config.STATS_WIDTH, config.WINDOW_HEIGHT))
         pygame.display.set_caption(f"Snake Genetics Simulation")
         self.font_small = pygame.font.SysFont("Arial", 16)
         self.font_large = pygame.font.SysFont("Arial", 24)
@@ -63,11 +63,36 @@ class Renderer:
                 pygame.draw.line(self.screen, (255, 0, 0), rect.topright, rect.bottomleft, 2)
             
             
-    def draw(self, snakes, foods):
+        
+    def draw_stats(self, snakes, foods, generation):
+        x_offset = config.WINDOW_WIDTH + 10  # Start drawing in the stats area
+        y = 10
+        font = self.font_small
+        stats = [
+            f"Generation: {generation}",
+            f"Alive snakes: {sum(1 for s in snakes if s.alive)}",
+            f"Total food: {len(foods)}",
+            f"Toxic food: {sum(1 for f in foods if getattr(f, 'toxic', False))}",
+        ]
+        # Top 5 snakes by score
+        top_snakes = sorted(snakes, key=lambda s: getattr(s, 'score', 0), reverse=True)[:5]
+        for i, snake in enumerate(top_snakes, 1):
+            stats.append(
+                f"#{i}: Score={snake.score} Len={len(snake.body)} "
+                f"Gene: {getattr(snake, 'toxic_reaction', '?')}, "
+                f"Resist: {getattr(snake, 'toxic_resistance', '?')}, "
+                f"Pref: {getattr(snake, 'food_preference', '?')}"
+            )
+        for line in stats:
+            text = font.render(line, True, (255, 255, 255))
+            self.screen.blit(text, (x_offset, y))
+            y += 18
+            
+    def draw(self, snakes, foods, generation=0):
         self.screen.fill((0, 0, 0))
         self.draw_terrain()
         self.draw_food(foods)
         self.draw_snakes(snakes)
+        self.draw_stats(snakes, foods, generation)
         pygame.display.flip()
         self.clock.tick(config.FPS)
-            
