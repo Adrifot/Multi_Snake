@@ -75,7 +75,17 @@ class Renderer:
                 pygame.draw.line(self.screen, (255, 0, 0), rect.topleft, rect.bottomright, 2)
                 pygame.draw.line(self.screen, (255, 0, 0), rect.topright, rect.bottomleft, 2)
             
-            
+    def draw_snake_path(self, snake):
+        if not hasattr(snake, "path") or not snake.path:
+            return
+        points = [(y * config.TILE_SIZE + config.TILE_SIZE // 2,
+                x * config.TILE_SIZE + config.TILE_SIZE // 2)
+                for x, y in snake.path]
+        if len(points) > 1:
+            pygame.draw.lines(self.screen, (255, 255, 0), False, points, 3)
+        # Optionally, draw circles at each path point
+        # for pt in points:
+        #     pygame.draw.circle(self.screen, (255, 255, 0), pt, config.TILE_SIZE // 6)
         
     def draw_stats(self, snakes, foods, generation, tick, selected_entity):
         x_offset = config.WINDOW_WIDTH + 10
@@ -144,6 +154,7 @@ class Renderer:
             if hasattr(selected_entity, "body"):  # Snake
                 chr_bin = format(selected_entity.chr, '020b')
                 chr_spaced = ' '.join([chr_bin[i:i+2] for i in range(0, 20, 2)])
+                self.draw_snake_path(selected_entity)
                 self.screen.blit(self.font_small.render(f"Type: Snake", True, (255,255,255)), (x_offset, y)); y += 18
                 self.screen.blit(self.font_small.render(f"Score: {selected_entity.score}", True, (255,255,255)), (x_offset, y)); y += 18
                 self.screen.blit(self.font_small.render(f"Length: {len(selected_entity.body)}", True, (255,255,255)), (x_offset, y)); y += 18
