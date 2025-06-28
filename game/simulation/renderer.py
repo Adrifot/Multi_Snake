@@ -77,7 +77,7 @@ class Renderer:
             
             
         
-    def draw_stats(self, snakes, foods, generation, tick):
+    def draw_stats(self, snakes, foods, generation, tick, selected_entity):
         x_offset = config.WINDOW_WIDTH + 10
         y = 10
         
@@ -137,14 +137,31 @@ class Renderer:
             self.screen.blit(text, (x_offset + 5, y))
             y += 20
 
-        # Always show static stats too
+        y += 20
+        if selected_entity is not None:
+            self.screen.blit(self.font_large.render("Selected Entity:", True, (255,255,0)), (x_offset, y))
+            y += 28
+            if hasattr(selected_entity, "body"):  # Snake
+                chr_bin = format(selected_entity.chr, '020b')
+                chr_spaced = ' '.join([chr_bin[i:i+2] for i in range(0, 20, 2)])
+                self.screen.blit(self.font_small.render(f"Type: Snake", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Score: {selected_entity.score}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Length: {len(selected_entity.body)}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Energy: {selected_entity.energy}/{selected_entity.max_energy}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Color: {selected_entity.color}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Genes: {chr_spaced}", True, (0,255,0)), (x_offset, y)); y += 18
+            elif hasattr(selected_entity, "position"):  # Food
+                self.screen.blit(self.font_small.render(f"Type: Food", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Energy Factor: {getattr(selected_entity, 'energy_factor', '?')}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Toxic: {getattr(selected_entity, 'toxic', '?')}", True, (255,255,255)), (x_offset, y)); y += 18
+                self.screen.blit(self.font_small.render(f"Genes: {format(getattr(selected_entity, 'chromosome', 0), '05b')}", True, (0,255,0)), (x_offset, y)); y += 18
         
             
-    def draw(self, snakes, foods, generation, tick):
+    def draw(self, snakes, foods, generation, tick, selected_entity):
         self.screen.fill((0, 0, 0))
         self.draw_terrain()
         self.draw_food(foods)
         self.draw_snakes(snakes)
-        self.draw_stats(snakes, foods, generation, tick)
+        self.draw_stats(snakes, foods, generation, tick, selected_entity)
         pygame.display.flip()
         self.clock.tick(config.FPS)

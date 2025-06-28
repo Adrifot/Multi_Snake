@@ -19,6 +19,7 @@ class GameController:
         self.snakes = []  
         self.foods = []   
         self.spawn_initial_snakes() 
+        self.selected_entity = None
 
     def spawn_initial_snakes(self):
         valid_starts = []
@@ -58,8 +59,24 @@ class GameController:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.paused = not self.paused
-                # elif event.key == pygame.K_r:
-                #     self.reset_simulation()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mx, my = pygame.mouse.get_pos()
+                # Only check clicks inside the main grid area
+                if mx < config.WINDOW_WIDTH and my < config.WINDOW_HEIGHT:
+                    grid_x = my // config.TILE_SIZE
+                    grid_y = mx // config.TILE_SIZE
+                    self.selected_entity = None
+                    # Check for snake at this position
+                    for snake in self.snakes:
+                        if (grid_x, grid_y) in snake.body:
+                            self.selected_entity = snake
+                            break
+                    # If no snake, check for food
+                    if self.selected_entity is None:
+                        for food in self.foods:
+                            if food.position == (grid_x, grid_y):
+                                self.selected_entity = food
+                                break
 
     def reset_simulation(self):
         print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
@@ -198,6 +215,6 @@ class GameController:
         while self.running:
             self.handle_events()
             self.update()
-            self.renderer.draw(self.snakes, self.foods, self.generation, self.tick_count)
+            self.renderer.draw(self.snakes, self.foods, self.generation, self.tick_count, self.selected_entity)
             self.clock.tick(config.FPS)
         pygame.quit()
