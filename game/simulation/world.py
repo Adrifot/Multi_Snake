@@ -30,9 +30,9 @@ class World:
                 if n < -0.5:
                     grid[x][y] = 999  # Impassable
                 elif n < -0.3:
-                    grid[x][y] = 4    # Mountains (high cost)
+                    grid[x][y] = 7    # Mountains (high cost)
                 elif n < 0:
-                    grid[x][y] = 2    # Hills (medium cost)
+                    grid[x][y] = 3    # Hills (medium cost)
                 else:
                     grid[x][y] = 1    # Grass (low cost)
         return grid

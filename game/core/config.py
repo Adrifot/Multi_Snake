@@ -4,13 +4,13 @@ TILE_SIZE = 10
 STATS_WIDTH = 300
 
 FPS = 15
-FOOD_NR = 35
+FOOD_NR = 44
 FOOD_ENERGY = 250
 FOOD_RESPAWN_RATE = 100
 
 SHRINK_ENERGY_INTERVAL = 200
 
-SNAKE_COUNT = 20
+SNAKE_COUNT = 26
 SNAKE_GENERATION_INTERVAL = 400
 
 LENGTH_WEIGHT = 3
@@ -19,8 +19,8 @@ ENERGY_WEIGHT = 1
 
 LAND_COLORS = {
     1: (105, 153, 93),  # green fields
-    2: (237, 180, 88),  # yellow hills
-    4: (49, 39, 32),  # brown mountains 
+    3: (237, 180, 88),  # yellow hills
+    7: (49, 39, 32),  # brown mountains 
     999: (25, 20, 16) # dark impassable peaks
 }
 
