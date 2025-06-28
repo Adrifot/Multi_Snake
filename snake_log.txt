@@ -1,39 +1,269 @@
-Generation 1:
-  #1: Score=0, Len=3, Energy=1000, Chromosome=00101101100111111011
-  #2: Score=0, Len=3, Energy=1000, Chromosome=00100000100001010001
-  #3: Score=0, Len=3, Energy=1000, Chromosome=00100000100001101111
+Generation 1 top 3:
 
-Generation 2:
-  #1: Score=0, Len=3, Energy=1000, Chromosome=00101101100111111011
-  #2: Score=0, Len=3, Energy=1000, Chromosome=00101101100110111011
-  #3: Score=0, Len=3, Energy=1000, Chromosome=00101101100111111011
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 204
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
 
-Generation 1:
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 2:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 2:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 2:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 2:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 2:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 3:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
-Generation 1:
-PLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOWPLACEHOLDER TEXT FOR NOW
+#2 Chr: 01111011000110010101
+Algorithm: bfs
+Fitness: 180
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 700
+Timidity: 4Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 11011000000000111100
+Algorithm: greedy
+Fitness: 117
+Vision Ramge: 20 tiles
+Exploration: 0.1
+Max Energy: 700
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.0Food preference: high
+
+
+Generation 2 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 137
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01100010001111101101
+Algorithm: bfs
+Fitness: 137
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 1.0Food preference: none
+
+#3 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 130
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+
+Generation 3 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 135
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110000001111101101
+Algorithm: bfs
+Fitness: 132
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01100010001111101101
+Algorithm: bfs
+Fitness: 125.0
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 1.0Food preference: none
+
+
+Generation 4 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 135
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 134
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01100010001111101101
+Algorithm: bfs
+Fitness: 129
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 1.0Food preference: none
+
+
+Generation 5 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 174
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 160.0
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 144
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+
+Generation 6 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 138
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01111010001111101101
+Algorithm: bfs
+Fitness: 105
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 98
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+
+Generation 7 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 189
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 183
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 177
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+
+Generation 8 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 201
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110010001110101101
+Algorithm: bfs
+Fitness: 180
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 123
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+
+Generation 9 top 3:
+
+#1 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 165
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#2 Chr: 01110010001111101101
+Algorithm: bfs
+Fitness: 144.0
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+
+#3 Chr: 01110010001110101101
+Algorithm: bfs
+Fitness: 93.0
+Vision Ramge: 20 tiles
+Exploration: 0.4
+Max Energy: 700
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: none
+

@@ -37,7 +37,7 @@ class Renderer:
                 color = config.LAND_COLORS.get(terrain_type, (0, 0, 0))
                 pygame.draw.rect(
                     self.screen, color,
-                    (y * config.TILE_SIZE, x * config.TILE_SIZE,  # <-- swapped x and y
+                    (y * config.TILE_SIZE, x * config.TILE_SIZE, 
                     config.TILE_SIZE, config.TILE_SIZE)
                 )
 
@@ -52,7 +52,7 @@ class Renderer:
             for i, segment in enumerate(snake.body):
                 pygame.draw.rect(
                     self.screen, snake.color,
-                    (segment[1] * config.TILE_SIZE, segment[0] * config.TILE_SIZE,  # <-- swapped
+                    (segment[1] * config.TILE_SIZE, segment[0] * config.TILE_SIZE,  
                     config.TILE_SIZE, config.TILE_SIZE)
                 )
 
@@ -95,6 +95,10 @@ class Renderer:
         
     def draw_stats(self, snakes, foods, generation, tick, selected_entity):
         """Render current world stats"""
+        
+        if not snakes:
+            return
+        
         x_offset = config.WINDOW_WIDTH + 10
         y = 10
         
@@ -135,7 +139,7 @@ class Renderer:
         for i, snake in enumerate(top_snakes, 1):
             chr_bin = format(snake.chr, '020b')
             pairs = [chr_bin[j:j+2] for j in range(0, 20, 2)]
-
+            color_name = next((name for name, rgb in config.SNAKE_COLORS.items() if rgb == snake.color), str(snake.color))
             line = f"#{i}: Score={snake.score} Len={len(snake.body)} Energy={snake.energy}/{snake.max_energy}"
             text = font.render(line, True, (255, 255, 255))
             self.screen.blit(text, (x_offset, y))
@@ -149,7 +153,7 @@ class Renderer:
                 pair_x += pair_text.get_width() + 2
             y += 18
 
-            color_line = f"Color: {snake.color} | Fitness: {config.LENGTH_WEIGHT * len(snake.body) + config.ENERGY_WEIGHT * (snake.energy//100) + config.SCORE_WEIGHT * snake.score}"
+            color_line = f"Color: {color_name} | Fitness: {config.LENGTH_WEIGHT * len(snake.body) + config.ENERGY_WEIGHT * (snake.energy//100) + config.SCORE_WEIGHT * snake.score}"
             text = font.render(color_line, True, (255, 255, 255))
             self.screen.blit(text, (x_offset + 5, y))
             y += 40
@@ -200,6 +204,19 @@ class Renderer:
                 config.TILE_SIZE
             )
             pygame.draw.rect(self.screen, contour_color, rect, 3)
+            
+    def show_game_over_screen(self, message="SIMULATION OVER"):
+        font = pygame.font.SysFont("Arial", 48)
+        text = font.render(message, True, (255, 0, 0))
+        subfont = pygame.font.SysFont("Arial", 24)
+        subtext = subfont.render("Press any key to exit...", True, (255, 255, 255))
+        self.screen.fill((0, 0, 0))
+        self.screen.blit(text, (self.screen.get_width() // 2 - text.get_width() // 2,
+                                self.screen.get_height() // 2 - text.get_height()))
+        self.screen.blit(subtext, (self.screen.get_width() // 2 - subtext.get_width() // 2,
+                                self.screen.get_height() // 2 + 20))
+        pygame.display.flip()
+        
             
     def draw(self, snakes, foods, generation, tick, selected_entity):
         """General function that combines all other Renderer class methods"""

@@ -3,7 +3,7 @@ WINDOW_HEIGHT = 1000
 TILE_SIZE = 10
 STATS_WIDTH = 300
 
-FPS = 15
+FPS = 20
 FOOD_NR = 50
 FOOD_ENERGY = 250 # energy provided by 1 food with energy factor gene encoding 10 or 01
 FOOD_RESPAWN_RATE = 100 # ticks
@@ -62,6 +62,8 @@ SNAKE_COLORS = { # generated with coolors.co palette generator
     "ceruleanblue": (66, 129, 164),
     "coral": (235, 130, 88),
     "aquamarine": (35, 240, 199),
-    "gold": (210, 191, 85),
-    "jasper": (199, 81, 70)
+    "jasper": (199, 81, 70),
+    "absred": (250, 0, 0),
+    "absgreen": (0, 250, 0),
+    "absblue": (0, 0, 250),
 }  
