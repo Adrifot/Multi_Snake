@@ -27,10 +27,10 @@ DECODER = {
         0b11: algos.a_star
     },
     "vision_range": { # tiles
-        0b00: 5, 
-        0b01: 10,  
-        0b10: 10,  
-        0b11: 15   
+        0b00: 10, 
+        0b01: 15,  
+        0b10: 15,  
+        0b11: 20   
     },
     "gene_dominance": { # +- 10% to bias
         0b00: -0.1,  
