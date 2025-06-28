@@ -87,7 +87,7 @@ class Snake:
         self.step = 0
 
 
-    def move(self, grid, other_bodies=None):
+    def move(self, grid, other_bodies=None, other_snakes=None):
         if other_bodies is None:
             other_bodies = set()
 
@@ -107,6 +107,14 @@ class Snake:
 
         if next_pos is None:
             next_pos = self.get_fallback_move(grid, collision_bodies)
+
+        # Final collision check - ADD HEAD-TO-HEAD COLLISION CHECK
+        # Get all other snake heads
+        other_heads = {s.position for s in other_snakes if s != self and s.alive}
+        if (next_pos in collision_bodies) or (next_pos in other_heads):
+            self.alive = False
+            print(f"Died: collision with body or head at {next_pos}")
+            return False
 
         # Final collision check
         if next_pos in collision_bodies:
@@ -139,9 +147,9 @@ class Snake:
         self.energy_since_last_shrink += terrain_cost
         # print(f"Energy = {self.energy}")
 
-        if self.energy_since_last_shrink >= config.SHRINK_ENERGY_INTERVAL and len(self.body) > 1:
+        if self.energy_since_last_shrink >= config.SHRINK_ENERGY_INTERVAL and len(self.body) > 3:
             shrink_count = self.energy_since_last_shrink // config.SHRINK_ENERGY_INTERVAL
-            shrink_count = min(shrink_count, len(self.body) - 1)
+            shrink_count =  min(int(shrink_count), len(self.body) - 1)
             self.body = self.body[:-shrink_count]
             self.energy_since_last_shrink %= config.SHRINK_ENERGY_INTERVAL
 
@@ -169,24 +177,24 @@ class Snake:
     def get_fallback_move(self, grid, collision_bodies):
         directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # up, down, left, right
         safe_moves = []
-        possible_moves = []
+
         for dx, dy in directions:
             nx, ny = self.position[0] + dx, self.position[1] + dy
-            possible_moves.append((nx, ny))
-            if 0 <= nx < grid.shape[0] and 0 <= ny < grid.shape[1]: # check if out of bounds
-                if grid[nx][ny] != 999 and (nx, ny) not in collision_bodies: # check if obstacle
+            if 0 <= nx < grid.shape[0] and 0 <= ny < grid.shape[1]:
+                if grid[nx][ny] != 999 and (nx, ny) not in collision_bodies:
                     safe_moves.append((dx, dy))
+
         if safe_moves:
-            baseline = random.random()
-            if baseline <= self.exploration:
+            if random.random() <= self.exploration:
                 chosen = random.choice(safe_moves)
-            else:
+            elif self.direction in safe_moves:
                 chosen = self.direction
-            self.direction = chosen
-            next_pos = (self.position[0] + chosen[0], self.position[1] + chosen[1])
-            # print(f"Next chosen direction: {chosen}")
-            return next_pos
-        # print(f"No safe moves - keep current direction: {self.direction}")
-        # Try to move in the current direction even if not safe
-        next_pos = (self.position[0] + self.direction[0], self.position[1] + self.direction[1])
+            else:
+                chosen = random.choice(safe_moves)
+        else:
+            # Nothing is safe, so force forward
+            chosen = self.direction
+
+        self.direction = chosen
+        next_pos = (self.position[0] + chosen[0], self.position[1] + chosen[1])
         return next_pos

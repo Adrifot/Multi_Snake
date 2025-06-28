@@ -81,7 +81,7 @@ class GameController:
 
         # Sort snakes by score and take top 20%
         for snake in self.snakes:
-            snake.fitness = len(snake.body) * config.LENGTH_WEIGHT + snake.score * config.SCORE_WEIGHT + snake.energy * config.ENERGY_WEIGHT
+            snake.fitness = len(snake.body) * config.LENGTH_WEIGHT + snake.score * config.SCORE_WEIGHT + (snake.energy//100) * config.ENERGY_WEIGHT
         
         num_snakes = len(self.snakes)
         def get_selected_count(survived_nr):
@@ -147,7 +147,7 @@ class GameController:
                 
             # Get other snakes' bodies
             other_bodies = all_bodies - set(snake.body)
-            moved = snake.move(self.world.grid, other_bodies)
+            moved = snake.move(self.world.grid, other_bodies, self.snakes)
             if not moved:
                 continue
                 
@@ -161,6 +161,7 @@ class GameController:
                     else:
                         penalty = food.energy_factor * config.FOOD_ENERGY * snake.toxic_resistance
                         snake.energy -= penalty
+                        snake.energy_since_last_shrink += penalty
                         snake.score += 3
                     self.foods.remove(food)
                     break
@@ -197,6 +198,6 @@ class GameController:
         while self.running:
             self.handle_events()
             self.update()
-            self.renderer.draw(self.snakes, self.foods)
+            self.renderer.draw(self.snakes, self.foods, self.generation, self.tick_count)
             self.clock.tick(config.FPS)
         pygame.quit()
