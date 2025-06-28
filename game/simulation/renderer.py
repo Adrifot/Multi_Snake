@@ -4,6 +4,19 @@ import core.config as config
 from entities.snake import Snake
 from simulation.world import World
 
+colors = [
+    (255, 0, 0),      # red
+    (255, 128, 0),    # orange
+    (255, 255, 0),    # yellow
+    (0, 255, 0),      # green
+    (0, 255, 255),    # cyan
+    (0, 128, 255),    # light blue
+    (64, 64, 255),      # blue
+    (128, 0, 255),    # purple
+    (255, 0, 255),    # magenta
+    (255, 0, 128),    # pink
+]
+
 class Renderer:
     def __init__(self, world):
         pygame.init()
@@ -64,35 +77,74 @@ class Renderer:
             
             
         
-    def draw_stats(self, snakes, foods, generation):
-        x_offset = config.WINDOW_WIDTH + 10  # Start drawing in the stats area
+    def draw_stats(self, snakes, foods, generation, tick):
+        x_offset = config.WINDOW_WIDTH + 10
         y = 10
+        
         font = self.font_small
+
+        colors = [
+            (255, 0, 0), (255, 128, 0), (255, 255, 0),
+            (0, 255, 0), (0, 255, 255), (0, 128, 255),
+            (0, 0, 255), (128, 0, 255), (255, 0, 255), (255, 0, 128),
+        ]
+
         stats = [
+            f"Current tick: {tick}",
             f"Generation: {generation}",
             f"Alive snakes: {sum(1 for s in snakes if s.alive)}",
             f"Total food: {len(foods)}",
             f"Toxic food: {sum(1 for f in foods if getattr(f, 'toxic', False))}",
+            "---------------------",
+            "Top 5 Snakes:"
         ]
-        # Top 5 snakes by score
-        top_snakes = sorted(snakes, key=lambda s: getattr(s, 'score', 0), reverse=True)[:5]
-        for i, snake in enumerate(top_snakes, 1):
-            stats.append(
-                f"#{i}: Score={snake.score} Len={len(snake.body)} "
-                f"Gene: {getattr(snake, 'toxic_reaction', '?')}, "
-                f"Resist: {getattr(snake, 'toxic_resistance', '?')}, "
-                f"Pref: {getattr(snake, 'food_preference', '?')}"
-            )
+        
         for line in stats:
             text = font.render(line, True, (255, 255, 255))
             self.screen.blit(text, (x_offset, y))
             y += 18
+
+        top_snakes = sorted(
+            snakes,
+            key=lambda s: (config.LENGTH_WEIGHT * len(s.body) + 
+                           config.SCORE_WEIGHT * s.score + 
+                           config.ENERGY_WEIGHT * (s.energy//100)),
+            reverse=True
+        )[:5]
+
+        if not top_snakes:
+            stats.append("No snakes to show!")
+
+        for i, snake in enumerate(top_snakes, 1):
+            chr_bin = format(snake.chr, '020b')
+            pairs = [chr_bin[j:j+2] for j in range(0, 20, 2)]
+
+            line = f"#{i}: Score={snake.score} Len={len(snake.body)} Energy={snake.energy}/{snake.max_energy}"
+            text = font.render(line, True, (255, 255, 255))
+            self.screen.blit(text, (x_offset, y))
+            y += 18
+
+            pair_x = x_offset + 5
+            for idx, pair in enumerate(pairs):
+                color = colors[idx % len(colors)]
+                pair_text = font.render(pair, True, color)
+                self.screen.blit(pair_text, (pair_x, y))
+                pair_x += pair_text.get_width() + 2
+            y += 18
+
+            color_line = f"Color: {snake.color} | Fitness: {config.LENGTH_WEIGHT * len(snake.body) + config.ENERGY_WEIGHT * (snake.energy//100) + config.SCORE_WEIGHT * snake.score}"
+            text = font.render(color_line, True, (255, 255, 255))
+            self.screen.blit(text, (x_offset + 5, y))
+            y += 20
+
+        # Always show static stats too
+        
             
-    def draw(self, snakes, foods, generation=0):
+    def draw(self, snakes, foods, generation, tick):
         self.screen.fill((0, 0, 0))
         self.draw_terrain()
         self.draw_food(foods)
         self.draw_snakes(snakes)
-        self.draw_stats(snakes, foods, generation)
+        self.draw_stats(snakes, foods, generation, tick)
         pygame.display.flip()
         self.clock.tick(config.FPS)
