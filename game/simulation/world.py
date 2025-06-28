@@ -14,6 +14,7 @@ PERSISTENCE = 0.5
 LACUNARITY = 1.25
 
 class World:
+    """Controls terrain math and food spawn logic"""
     def __init__(self):
         self.width = config.WINDOW_WIDTH// config.TILE_SIZE
         self.height = config.WINDOW_HEIGHT // config.TILE_SIZE
@@ -22,14 +23,15 @@ class World:
         
         
     def generate_perlin_terrain(self):
+        """Generate world map using Perlin noise"""
         noise = Noise(seed=random.randint(0, 1000))
         grid = np.zeros((self.height, self.width), dtype=int)
         for x in range(self.height):      # x = row
             for y in range(self.width):   # y = col
                 n = noise.noise2(x/SCALING_FACTOR, y/SCALING_FACTOR, octaves=OCTAVES, persistence=PERSISTENCE, lacunarity=LACUNARITY)  
-                if n < -0.5:
+                if n < -0.4:
                     grid[x][y] = 999  # Impassable
-                elif n < -0.3:
+                elif n < -0.25:
                     grid[x][y] = 7    # Mountains (high cost)
                 elif n < 0:
                     grid[x][y] = 3    # Hills (medium cost)
@@ -37,13 +39,10 @@ class World:
                     grid[x][y] = 1    # Grass (low cost)
         return grid
 
-    def get_terrain_cost(self, pos):
-        x, y = pos
-        if 0 <= x < self.height and 0 <= y < self.width:
-            return self.grid[x][y]
-        return 999
+        
         
     def spawn_food(self, count, snakes=None, parent_foods=None):
+        """Spawn config.FOOD_NR food entities"""
         occupied = set()
         if snakes:
             for snake in snakes:
@@ -73,7 +72,7 @@ class World:
                         chr |= (parent2.chromosome & bit_mask)
 
                 # Mutation
-                chr = mutate(chr, 0.15, 5)
+                chr = mutate(chr, 0.15, 5) # 15% mutation chance
                 new_foods.append(Food(pos, chromosome=chr))
             else:
                 new_foods.append(Food(pos))

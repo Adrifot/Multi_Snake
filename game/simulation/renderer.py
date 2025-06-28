@@ -18,6 +18,7 @@ colors = [
 ]
 
 class Renderer:
+    """Controls game graphics"""
     def __init__(self, world):
         pygame.init()
         self.world = world
@@ -29,6 +30,7 @@ class Renderer:
         
         
     def draw_terrain(self):
+        """Draww world map"""
         for x in range(self.world.grid.shape[0]):
             for y in range(self.world.grid.shape[1]):
                 terrain_type = self.world.grid[x][y]
@@ -39,7 +41,9 @@ class Renderer:
                     config.TILE_SIZE, config.TILE_SIZE)
                 )
 
+
     def draw_snakes(self, snakes):
+        """Draw snake entities"""
         if snakes is None:
             snakes = []
         for snake in snakes:
@@ -52,9 +56,11 @@ class Renderer:
                     config.TILE_SIZE, config.TILE_SIZE)
                 )
 
+
     def draw_food(self, foods):
+        """Draw food entities"""
         for food in foods:
-            # Decide color based on toxicity and energy_factor
+            # Decide color based on toxicity and energy factor
             if food.energy_factor == 0.5:
                 color = config.FOOD_COLORS["low"]
             elif food.energy_factor == 1.0:
@@ -75,7 +81,9 @@ class Renderer:
                 pygame.draw.line(self.screen, (255, 0, 0), rect.topleft, rect.bottomright, 2)
                 pygame.draw.line(self.screen, (255, 0, 0), rect.topright, rect.bottomleft, 2)
             
+            
     def draw_snake_path(self, snake):
+        """Draw current path for a selected snake"""
         if not hasattr(snake, "path") or not snake.path:
             return
         points = [(y * config.TILE_SIZE + config.TILE_SIZE // 2,
@@ -83,11 +91,10 @@ class Renderer:
                 for x, y in snake.path]
         if len(points) > 1:
             pygame.draw.lines(self.screen, (255, 255, 0), False, points, 3)
-        # Optionally, draw circles at each path point
-        # for pt in points:
-        #     pygame.draw.circle(self.screen, (255, 255, 0), pt, config.TILE_SIZE // 6)
+
         
     def draw_stats(self, snakes, foods, generation, tick, selected_entity):
+        """Render current world stats"""
         x_offset = config.WINDOW_WIDTH + 10
         y = 10
         
@@ -145,7 +152,7 @@ class Renderer:
             color_line = f"Color: {snake.color} | Fitness: {config.LENGTH_WEIGHT * len(snake.body) + config.ENERGY_WEIGHT * (snake.energy//100) + config.SCORE_WEIGHT * snake.score}"
             text = font.render(color_line, True, (255, 255, 255))
             self.screen.blit(text, (x_offset + 5, y))
-            y += 20
+            y += 40
 
         y += 20
         if selected_entity is not None:
@@ -169,6 +176,7 @@ class Renderer:
         
             
     def draw(self, snakes, foods, generation, tick, selected_entity):
+        """General function that combines all other Renderer class methods"""
         self.screen.fill((0, 0, 0))
         self.draw_terrain()
         self.draw_food(foods)

@@ -4,15 +4,16 @@ TILE_SIZE = 10
 STATS_WIDTH = 300
 
 FPS = 15
-FOOD_NR = 44
-FOOD_ENERGY = 250
-FOOD_RESPAWN_RATE = 100
+FOOD_NR = 50
+FOOD_ENERGY = 250 # energy provided by 1 food with energy factor gene encoding 10 or 01
+FOOD_RESPAWN_RATE = 100 # ticks
 
-SHRINK_ENERGY_INTERVAL = 200
+SHRINK_ENERGY_INTERVAL = 200 # energy spent before shrinking
 
-SNAKE_COUNT = 26
-SNAKE_GENERATION_INTERVAL = 400
+SNAKE_COUNT = 25
+SNAKE_GENERATION_INTERVAL = 500
 
+# Fitness weights
 LENGTH_WEIGHT = 3
 SCORE_WEIGHT = 3
 ENERGY_WEIGHT = 1
@@ -25,9 +26,9 @@ LAND_COLORS = {
 }
 
 FOOD_COLORS = {
-    "low": (205, 205, 205),
-    "med": (230, 230, 230),
-    "high": (255, 255, 255),
+    "low": (150, 150, 150),
+    "med": (200, 200, 200),
+    "high": (250, 250, 250),
 }
 
 SNAKE_COLORS = {
@@ -45,5 +46,3 @@ SNAKE_COLORS = {
     "gray": (120, 138, 163),
     "beige": (255, 202, 212)
 }  
-
-FOOD_COLOR = (250, 250, 250)
