@@ -23,7 +23,6 @@ class GameController:
         self.selected_entity = None
 
 
-
     def spawn_initial_snakes(self):
         """Spawn config.SNAKE_NR snakes"""
         valid_starts = []
@@ -51,7 +50,7 @@ class GameController:
         
         chosen = random.sample(valid_starts, spawn_count)
         self.snakes = [
-            Snake(position=pos, direction=dir, color=random.choice(list(config.SNAKE_COLORS.keys())))
+            Snake(position=pos, direction=dir, color=random.choice(list(config.SNAKE_COLORS.values())))
             for pos, dir in chosen
         ]
         
@@ -87,6 +86,7 @@ class GameController:
                                 self.selected_entity = food
                                 break
 
+
     def reset_simulation(self):
         """Reset current world state and begin a new generation of snakes"""
         print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
@@ -118,7 +118,6 @@ class GameController:
             self.foods = survivor_foods + new_foods
         else:
             self.foods = survivor_foods
-        
         
 
     def evolve_snakes(self):
