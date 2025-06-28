@@ -9,9 +9,9 @@ from core.genes import mutate
 OFFSET_X = random.random() * 100
 OFFSET_Y = random.random() * 100
 SCALING_FACTOR = 10
-OCTAVES = 2
-PERSISTENCE = 0.4
-LACUNARITY = 1.5
+OCTAVES = 3
+PERSISTENCE = 0.5
+LACUNARITY = 1.25
 
 class World:
     def __init__(self):
@@ -24,12 +24,10 @@ class World:
     def generate_perlin_terrain(self):
         noise = Noise(seed=random.randint(0, 1000))
         grid = np.zeros((self.height, self.width), dtype=int)
-        # print(f"Self height: {self.height}")
-        # print(f"Self width: {self.width}")
         for x in range(self.height):      # x = row
             for y in range(self.width):   # y = col
                 n = noise.noise2(x/SCALING_FACTOR, y/SCALING_FACTOR, octaves=OCTAVES, persistence=PERSISTENCE, lacunarity=LACUNARITY)  
-                if n < -0.55:
+                if n < -0.5:
                     grid[x][y] = 999  # Impassable
                 elif n < -0.3:
                     grid[x][y] = 4    # Mountains (high cost)
