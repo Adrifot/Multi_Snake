@@ -19,7 +19,7 @@ This project explores how different search strategies and behaviors affect the s
 
 ### Controls and UI guide
 - Press SPACEBAR to PAUSE/UNPAUSE
-- You can see all the global stats of the current generation in the right side of the screen:
+- You can see all the global stats of the current generation on the right side of the screen:
 ![In-game global stats](./media/globalstats.png)
 - Click on an entity - food or snake, to see its data (easier to do when the game is paused or when `core.config.FPS` is set to a low value)
 ![in-game screenshot](./media/ingamess.png)
@@ -72,7 +72,7 @@ Here is an example of a chromosome, its genes and their expressions:
 | **Trait** | A*  | 15 | -0.1 | 0.15 | 0.25 | 1300 | 1  | ignore | 1.0  | none |
 
 In other words, a snake with the chromosome $11100001011110000101$ will:
-- use A* for finding its pray
+- use A* for finding its prey
 - have a vision range of 15 tiles
 - have a gene dominance bias of -10% (its genes are less likely to be passed on)
 - have a mutability of 15% (after being born, this snake had a 15% chance of mutating)
@@ -83,7 +83,7 @@ In other words, a snake with the chromosome $11100001011110000101$ will:
 - have neither resistance nor vulnerability to toxicity (x1 scaling factor)
 - have no food preference (will not prioritise food based on its energy value)
 
-### Evolutioin process
+### Evolution process
 In this simulation, it follows the standard selection-reproduction-mutation stages.
 The chosen method of selection is **Truncation Selection**, as it is used in real life when breeding farm animals or simulating flora and fauna ecosystems.
 This means that only the **top 20%** of the population will have the right to reproduce. This percentage is modified based on the surviving population.
@@ -100,6 +100,6 @@ Any advice or ideas are welcome - feel free to PR and recommend fixes, improveme
 ## Documentation
 Full documentation will be available [here](./docs.md) (WiP for now).
 
-## Licence
+## License
 This project is licensed under the [MIT License](./LICENSE).
 Feel free to use, modify, and distribute this project as long as proper attribution is provided.
