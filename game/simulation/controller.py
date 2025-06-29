@@ -93,10 +93,6 @@ class GameController:
 
     def reset_simulation(self):
         """Reset current world state and begin a new generation of snakes"""
-        print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
-        self.generation += 1
-        print(f"Generation {self.generation}")
-        
         top_snakes = sorted(self.snakes, key=lambda s: (
             config.LENGTH_WEIGHT * len(s.body) +
             config.SCORE_WEIGHT * s.score +
@@ -173,7 +169,9 @@ class GameController:
                         config.ENERGY_WEIGHT * (s.energy // 100))
                 writer.writerow([self.generation, s.chr, fitness])
         
-        
+        print(f"Alive snakes: {sum(1 for s in self.snakes if s.alive)}")
+        self.generation += 1
+        print(f"Generation {self.generation}")
         self.snakes = self.evolve_snakes()
 
         survivor_foods = self.foods[:]  # keep current foods

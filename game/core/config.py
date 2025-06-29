@@ -4,17 +4,17 @@ TILE_SIZE = 10
 STATS_WIDTH = 300
 
 FPS = 20
-FOOD_NR = 50
-FOOD_ENERGY = 250 # energy provided by 1 food with energy factor gene encoding 10 or 01
-FOOD_RESPAWN_RATE = 100 # ticks
+FOOD_NR = 50 # (default 50)
+FOOD_ENERGY = 250 # energy provided by 1 food with energy factor gene encoding 10 or 01 (DEFAULT 250)
+FOOD_RESPAWN_RATE = 100 # ticks (DEFAULT 100)
 
-SHRINK_ENERGY_INTERVAL = 200 # energy spent before shrinking
+SHRINK_ENERGY_INTERVAL = 200 # energy spent before shrinking (default 200)
 
-SNAKE_COUNT = 25
-SNAKE_GENERATION_INTERVAL = 500
+SNAKE_COUNT = 25 # (DEFAULT25)
+SNAKE_GENERATION_INTERVAL = 500 # (DEFAULT 500)
 
-# Fitness weights
-LENGTH_WEIGHT = 3
+# Fitness weights: default 3 3 1
+LENGTH_WEIGHT = 3 
 SCORE_WEIGHT = 3
 ENERGY_WEIGHT = 1
 

@@ -1,269 +1,252 @@
-Generation 1 top 3:
 
-#1 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 204
+Generation 0 top 3:
+
+#1 Chr: 10001011001000001111
+Algorithm: a_star
+Fitness: 198
 Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#2 Chr: 01111011000110010101
-Algorithm: bfs
-Fitness: 180
-Vision Ramge: 15 tiles
 Exploration: 0.25
 Max Energy: 700
 Timidity: 4Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: none
+
+#2 Chr: 11000010111000110100
+Algorithm: greedy
+Fitness: 159
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1300
+Timidity: 1Toxic Reaction: ignore
+Toxic Penalty Scale: 1.5Food preference: high
+
+#3 Chr: 01111010110011000000
+Algorithm: greedy
+Fitness: 147
+Vision Ramge: 10 tiles
+Exploration: 0.1
+Max Energy: 1300
+Timidity: 1Toxic Reaction: avoid
 Toxic Penalty Scale: 0.5Food preference: none
 
-#3 Chr: 11011000000000111100
-Algorithm: greedy
-Fitness: 117
-Vision Ramge: 20 tiles
-Exploration: 0.1
+
+Generation 0 top 3:
+
+#1 Chr: 10011000000101000101
+Algorithm: bfs
+Fitness: 153
+Vision Ramge: 15 tiles
+Exploration: 0.25
 Max Energy: 700
 Timidity: 0Toxic Reaction: avoid
-Toxic Penalty Scale: 1.0Food preference: high
+Toxic Penalty Scale: 1.0Food preference: none
+
+#2 Chr: 00110101010110011010
+Algorithm: ucs
+Fitness: 151
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 1Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: low
+
+#3 Chr: 11000000010111011001
+Algorithm: bfs
+Fitness: 122
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 1.5Food preference: high
+
+
+Generation 1 top 3:
+
+#1 Chr: 00000101010110011010
+Algorithm: ucs
+Fitness: 172.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 1Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: low
+
+#2 Chr: 11000100010111011010
+Algorithm: ucs
+Fitness: 125.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: high
+
+#3 Chr: 11110000010111011001
+Algorithm: bfs
+Fitness: 110.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
 
 Generation 2 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11000000010111011101
 Algorithm: bfs
-Fitness: 137
+Fitness: 181.0
 Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 1.5Food preference: high
 
-#2 Chr: 01100010001111101101
+#2 Chr: 11000100010111011001
 Algorithm: bfs
-Fitness: 137
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 1.0Food preference: none
+Fitness: 147.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: high
 
-#3 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 130
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+#3 Chr: 11110100010110011010
+Algorithm: ucs
+Fitness: 142.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: high
 
 
 Generation 3 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 135
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#2 Chr: 01110000001111101101
-Algorithm: bfs
-Fitness: 132
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
+Fitness: 179
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
 Timidity: 0Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Toxic Penalty Scale: 0.5Food preference: high
 
-#3 Chr: 01100010001111101101
+#2 Chr: 11110100010010011001
 Algorithm: bfs
-Fitness: 125.0
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 1.0Food preference: none
+Fitness: 176
+Vision Ramge: 15 tiles
+Exploration: 0.1
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: high
+
+#3 Chr: 11000100010110011001
+Algorithm: bfs
+Fitness: 143
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: high
 
 
 Generation 4 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 135
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 178
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
-#2 Chr: 01110010001111101101
+#2 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 134
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 108
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
-#3 Chr: 01100010001111101101
+#3 Chr: 11000100010110011001
 Algorithm: bfs
-Fitness: 129
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 1.0Food preference: none
+Fitness: 107.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: high
 
 
 Generation 5 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 174
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 164.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
-#2 Chr: 01110010001111101101
+#2 Chr: 11000000010110011001
 Algorithm: bfs
-Fitness: 160.0
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 156
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 1.5Food preference: high
 
-#3 Chr: 01110010001111101101
+#3 Chr: 01000100010110011001
 Algorithm: bfs
-Fitness: 144
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 155
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 1.5Food preference: none
 
 
 Generation 6 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11110100010110011001
 Algorithm: bfs
-Fitness: 138
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 157.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: avoid
+Toxic Penalty Scale: 0.5Food preference: high
 
-#2 Chr: 01111010001111101101
+#2 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 105
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: avoid
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 134.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
-#3 Chr: 01110010001111101101
+#3 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 98
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 125.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 
 
 Generation 7 top 3:
 
-#1 Chr: 01110010001111101101
+#1 Chr: 11110000010110011001
 Algorithm: bfs
-Fitness: 189
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#2 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 183
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#3 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 177
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-
-Generation 8 top 3:
-
-#1 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 201
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#2 Chr: 01110010001110101101
-Algorithm: bfs
-Fitness: 180
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#3 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 123
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-
-Generation 9 top 3:
-
-#1 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 165
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#2 Chr: 01110010001111101101
-Algorithm: bfs
-Fitness: 144.0
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
-
-#3 Chr: 01110010001110101101
-Algorithm: bfs
-Fitness: 93.0
-Vision Ramge: 20 tiles
-Exploration: 0.4
-Max Energy: 700
-Timidity: 1Toxic Reaction: ignore
-Toxic Penalty Scale: 0.5Food preference: none
+Fitness: 129.0
+Vision Ramge: 15 tiles
+Exploration: 0.25
+Max Energy: 1000
+Timidity: 0Toxic Reaction: ignore
+Toxic Penalty Scale: 0.5Food preference: high
 

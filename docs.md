@@ -1,0 +1,3 @@
+# MultiSnake - documentation
+## WORK IN PROGESS...
+### sorry
