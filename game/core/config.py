@@ -10,7 +10,7 @@ FOOD_RESPAWN_RATE = 100 # ticks (DEFAULT 100)
 
 SHRINK_ENERGY_INTERVAL = 200 # energy spent before shrinking (default 200)
 
-SNAKE_COUNT = 25 # (DEFAULT25)
+SNAKE_COUNT = 25 # (DEFAULT 25)
 SNAKE_GENERATION_INTERVAL = 500 # (DEFAULT 500)
 
 # Fitness weights: default 3 3 1

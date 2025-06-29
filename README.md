@@ -16,6 +16,17 @@ This project explores how different search strategies and behaviors affect the s
 - **78,732** unique phenotypes possible.
 
 ## Overview
+
+### Controls and UI guide
+- Press SPACEBAR to PAUSE/UNPAUSE
+- You can see all the global stats of the current generation in the right side of the screen:
+![In-game global stats](./media/globalstats.png)
+- Click on an entity - food or snake, to see its data (easier to do when the game is paused or when `core.config.FPS` is set to a low value)
+![in-game screenshot](./media/ingamess.png)
+![entity stats screen](./media/entitystats.png)
+- On the world map, a tile's color depends on its terrain cost (TC):
+![terrain screenshot](./media/terrainss.png)
+
 ### Architecture
 The project code is separated in 3 modules:
 - [core](./game/core/) - contains core data that controls the simulation's flow:
@@ -33,6 +44,7 @@ The project code is separated in 3 modules:
 There are several other files that may be of interest:
 - [calculation.md](./calculation.md) contains my notes regarding the fine-tuning of configurable world parameters in order to keep the simulation running smoothly
 - [plot.ipynb](./plot.ipynb) is a notebook that contains some simple plots for visualising a simulation session's evolution
+- [snake_log.txt](./snake_log.txt) contains data about the top 3 snakes in each generation
 
 ### Gene encoding and expression
 Each snake has a 20-bit chromosome, with 10 genes in total. Each gene is encoded in a pair of 2 bits (so an int value between 0 and 3). 
