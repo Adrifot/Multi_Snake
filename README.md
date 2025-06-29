@@ -86,19 +86,7 @@ In other words, a snake with the chromosome $11100001011110000101$ will:
 ### Evolutioin process
 In this simulation, it follows the standard selection-reproduction-mutation stages.
 The chosen method of selection is **Truncation Selection**, as it is used in real life when breeding farm animals or simulating flora and fauna ecosystems.
-This means that only the **top 20%** of the population will have the right to reproduce. This percentage is modified based on the surviving population and follows the following function:
-$$
-\begin{aligned}
-&f : \mathbb{N} \to \mathbb{N} \\
-\\
-&f(n) = 
-\begin{cases}
-2, & \text{if } 2 \leq n < 5 \\
-3, & \text{if } 6 \leq n < 17 \\
-\left\lfloor \frac{n}{5} \right\rfloor, & \text{otherwise}
-\end{cases}
-\end{aligned}
-$$
+This means that only the **top 20%** of the population will have the right to reproduce. This percentage is modified based on the surviving population.
 
 ### Possible improvements:
 - The code needs better organization, it is kind of chaotic (e.g. move `World.spawn_food()` to `Controller`)
